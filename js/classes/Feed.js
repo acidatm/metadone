@@ -18,26 +18,26 @@ export default class Feed{
 			generate: 20
 		}
 
+		this.init()
+	}
+	init(){
+		let t = null
 		let f = function(){
-			if(t){
-				clearTimeout(t)
-			}
+			if(t){clearTimeout(t)}
 			this.events.scrollend.bind(this)()
 		}
-		let t = null
-
 		this.node.addEventListener("scroll",(e) => {
-			if(t){
-				clearTimeout(t)
-			}
+			if(t){clearTimeout(t)}
 			t = setTimeout(f.bind(this), 50)
 		})
+		// this.events.scrollend()
+		this.generate()
+		this.activatePost(0)
 	}
 	events = {
 		scrollend: function(e){
 			if(Math.abs(this.node.scrollTop - this._lastScrollPosition) > 10){
 				this._lastScrollPosition = this.node.scrollTop
-				console.log("scrollend")
 				let active = Math.floor((this.node.scrollTop + 0.5 * this.height) / this.height)
 				if(this.activePost.index != active){
 					if(this.activePost.ref){
@@ -50,24 +50,26 @@ export default class Feed{
 					}
 				}
 
-				this.activePost.index = active
-				this.activePost.ref = this.posts[this.activePost.index]
-				this.activePost.ref.node.classList.add("active")
-				if(this.activePost.ref.sound){
-					for(let s of this.activePost.ref.sound){
-						s.generator.connect(this.AUDIO_CTX.destination)
-					}	
-					console.log(this.AUDIO_CTX.state)
-					if(this.AUDIO_CTX.state == "suspended"){
-						this.AUDIO_CTX.resume()
-					}
-					console.log(this.AUDIO_CTX.state)
-					console.log(this.AUDIO_CTX)
-				}
+				
+				
+				this.activatePost(active)
 
 				if(this.activePost.index + this.buffer.size > this.posts.length){
 					this.generate()
 				}
+			}
+		}.bind(this)
+	}
+	activatePost(index){
+		this.activePost.index = index
+		this.activePost.ref = this.posts[this.activePost.index]
+		this.activePost.ref.node.classList.add("active")
+		if(this.activePost.ref.sound){
+			for(let s of this.activePost.ref.sound){
+				s.generator.connect(this.AUDIO_CTX.destination)
+			}	
+			if(this.AUDIO_CTX.state == "suspended"){
+				this.AUDIO_CTX.resume()
 			}
 		}
 	}

@@ -12,13 +12,8 @@ enable.addEventListener("mousedown",init)
 		
 
 function init(){
-	console.log("init")
 	enable.parentNode.removeChild(enable)
 	AUDIO = new AudioContext()
-	console.log(AUDIO)
-	console.log(AUDIO.state)
-	AUDIO.resume()
-	console.log(AUDIO.state)
 	const USER = new User()
 	const AA = new AlmightyAlgorithm(USER,null,AUDIO)
 
@@ -29,9 +24,11 @@ function init(){
 	FEED = new Feed(ul,AA,AUDIO)
 
 	resize()
-	FEED.generate()
+	// FEED.generate()
 	
 }	
 function resize(){
 	FEED.height = FEED.node.getBoundingClientRect().height
 }	
+
+// window.addEventListener("DOMContentLoaded",init)

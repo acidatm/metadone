@@ -3,7 +3,7 @@ export class sinewaves{
 		this.seed = seed
 		this.ctx = ctx
 
-		this.frequency = 60 + Math.floor(Math.random() * 600)
+		this.frequency = 60 + Math.floor(Math.random() * 360)
 
 		this.generator = this.createGenerator()
 		this.tracktitle = this.frequency + "hz"
@@ -32,7 +32,7 @@ export class squarewaves{
 	createGenerator(){
 		let osc = this.ctx.createOscillator()
 		let gain = this.ctx.createGain()
-		gain.gain.setValueAtTime(0.1, this.ctx.currentTime)
+		gain.gain.setValueAtTime(0.05, this.ctx.currentTime)
 		osc.type = "square";
 		osc.frequency.setValueAtTime(this.frequency, this.ctx.currentTime)
 		osc.start()

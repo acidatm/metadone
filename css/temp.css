@@ -10,6 +10,7 @@
 	background: blue;
 }
 #enable .inner{
+	text-align: center;
 	position: absolute;
 	color: white;
 	top: 50%;
