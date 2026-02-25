@@ -19,6 +19,9 @@ export default class Feed{
 
 		let f = this.events.scrollend.bind(this)
 		this.node.addEventListener("scrollend",function(e){f(e)})
+		this.node.addEventListener("scroll",function(e){
+			console.log(e)
+		})
 	}
 	events = {
 		scrollend: function(e){
