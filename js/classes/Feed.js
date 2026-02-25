@@ -22,6 +22,8 @@ export default class Feed{
 	}
 	events = {
 		scrollend: function(e){
+			console.log("scrollend")
+			console.log(this.node.scrollTop)
 			let active = Math.floor((this.node.scrollTop + 0.5 * this.height) / this.height)
 			if(this.activePost.index != active){
 				if(this.activePost.ref){
