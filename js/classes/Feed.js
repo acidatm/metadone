@@ -5,6 +5,8 @@ export default class Feed{
 		this.ALGORITHM = algo
 		this.AUDIO_CTX = audio_ctx
 
+		this.
+
 		this.node = node,
 		this.height = 0,
 		this.posts = [],
@@ -21,6 +23,7 @@ export default class Feed{
 		this.node.addEventListener("scrollend",function(e){f(e)})
 		this.node.addEventListener("scroll",function(e){
 			console.log(e)
+			console.log(this.node.scrollTop)
 		})
 	}
 	events = {
