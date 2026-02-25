@@ -17,6 +17,8 @@ function init(){
 	AUDIO = new AudioContext()
 	console.log(AUDIO)
 	console.log(AUDIO.state)
+	AUDIO.resume()
+	console.log(AUDIO.state)
 	const USER = new User()
 	const AA = new AlmightyAlgorithm(USER,null,AUDIO)
 

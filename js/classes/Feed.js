@@ -41,6 +41,12 @@ export default class Feed{
 				for(let s of this.activePost.ref.sound){
 					s.generator.connect(this.AUDIO_CTX.destination)
 				}	
+				console.log(this.AUDIO_CTX.state)
+				if(this.AUDIO_CTX.state == "suspended"){
+					this.AUDIO_CTX.resume()
+				}
+				console.log(this.AUDIO_CTX.state)
+				console.log(this.AUDIO_CTX)
 			}
 
 			if(this.activePost.index + this.buffer.size > this.posts.length){
