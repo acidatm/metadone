@@ -42,6 +42,7 @@
 	z-index: 1000;
 	height: 18px;
   	overflow: hidden;
+  	width: calc(100% - 32px);
 }
 .post .post_content{
 	position: absolute;
