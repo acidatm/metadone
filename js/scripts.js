@@ -6,26 +6,32 @@ import AlmightyAlgorithm from "/js/classes/AlmightyAlgorithm.js"
 const MAIN = document.getElementById("main")
 
 
-function init(){
-	const AUDIO = new AudioContext()
-	const USER = new User()
-	const AA = new AlmightyAlgorithm(USER,null,AUDIO)
 
-	let ul = document.createElement("ul")
-	ul.id = "feed"
-	MAIN.appendChild(ul)
 
-	const FEED = new Feed(ul,AA,AUDIO)
+window.addEventListener("DOMContentLoaded",function(){
+	const MAIN = document.getElementById("main")
+
+	document.getElementById("enable").addEventListener("click",(e) => {
+		e.target.parentNode.removeChild(e.target)
+		init()
+	})
+
+	function init(){
+		const AUDIO = new AudioContext()
+		const USER = new User()
+		const AA = new AlmightyAlgorithm(USER,null,AUDIO)
+
+		let ul = document.createElement("ul")
+		ul.id = "feed"
+		MAIN.appendChild(ul)
+
+		const FEED = new Feed(ul,AA,AUDIO)
+
+		resize()
+		FEED.generate()
+		function resize(){
+			FEED.height = FEED.node.getBoundingClientRect().height
+		}
+	}	
 	
-	resize()
-	FEED.generate()
-
-	function resize(){
-	FEED.height = FEED.node.getBoundingClientRect().height
-}
-}
-
-
-main.addEventListener("click",() => {
-	init()
 })
