@@ -4,13 +4,13 @@ import User from "/js/classes/User.js"
 import AlmightyAlgorithm from "/js/classes/AlmightyAlgorithm.js"
 
 const MAIN = document.getElementById("main")
-
+let AUDIO
 
 
 
 window.addEventListener("DOMContentLoaded",function(){
 	const MAIN = document.getElementById("main")
-	let AUDIO
+	
 
 	document.getElementById("enable").addEventListener("click",(e) => {
 		AUDIO = new AudioContext()
