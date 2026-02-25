@@ -10,14 +10,16 @@ const MAIN = document.getElementById("main")
 
 window.addEventListener("DOMContentLoaded",function(){
 	const MAIN = document.getElementById("main")
+	let AUDIO
 
 	document.getElementById("enable").addEventListener("click",(e) => {
+		AUDIO = new AudioContext()
 		e.target.parentNode.removeChild(e.target)
 		init()
 	})
 
 	function init(){
-		const AUDIO = new AudioContext()
+		
 		const USER = new User()
 		const AA = new AlmightyAlgorithm(USER,null,AUDIO)
 
