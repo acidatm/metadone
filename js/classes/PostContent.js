@@ -22,19 +22,19 @@ export default class PostContent{
 	}
 	generateHTML(){
 		for(let c of this.creators){
-			this.html.push(new HTML_GENERATORS[c.uid](this.seed))
+			this.html.push(new HTML_GENERATORS[c.uid](this.seed,c))
 		}
 	}
 	generateSound(){
 		for(let p of this.producers){
 			if(p.uid){
-				this.sound.push(new AUDIO_GENERATORS[p.uid](this.seed,this.ctx))
+				this.sound.push(new AUDIO_GENERATORS[p.uid](this.seed,this.ctx,p))
 			}
 		}
 	}
 	generateCaption(){
 		for(let c of this.creators){
-			this.captions.push(new CAPTION_GENERATORS[c.uid](this.seed).caption)
+			this.captions.push(new CAPTION_GENERATORS[c.uid](this.seed,c).caption)
 		}
 	}
 }

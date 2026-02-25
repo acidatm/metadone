@@ -24,6 +24,8 @@ export default class Post{
 		let id = document.createElement("time")
 		id.classList.add("post_uid")
 		id.innerText = ("" + this.id).padStart(8,"0")
+		let gradient = document.createElement("div")
+		gradient.classList.add("post_gradient")
 
 		if(this.content.creators.length == 1){
 			username.innerText = this.content.creators[0].username
@@ -63,6 +65,7 @@ export default class Post{
 			}
 			desc.innerText = d
 		}
+		this.node.appendChild(gradient)
 		this.node.appendChild(username)
 		this.node.appendChild(desc)
 		this.node.appendChild(id)

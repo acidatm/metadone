@@ -86,6 +86,16 @@
 	top: 0;
 	animation: scrollby 20s infinite linear;
 }
+.post .post_gradient{
+	background: black;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	height: 120px;
+	width: 100%;
+	z-index: 999;
+	background: linear-gradient(to top,rgba(0,0,0,0.2),rgba(0,0,0,0.05),rgba(0,0,0,0));
+}
 @keyframes scrollby{
 		0%{
 			left: 0;

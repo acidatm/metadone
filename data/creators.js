@@ -6,7 +6,7 @@ export default [
 		dp_url: "primary_colors.png",
 		type: "background",
 		collaborators: {
-			creators: ["singleImpactWords","shadesOfGrey","mellowColors","repeatWords"],
+			creators: ["singleWords","shadesOfGrey","mellowColors","repeatWords"],
 			producers: ["sinewaves","squarewaves","noise"]
 		}
 		
@@ -18,7 +18,7 @@ export default [
 		dp_url: "mellow.png",
 		type: "background",
 		collaborators: {
-			creators: ["singleImpactWords","shadesOfGrey","primaryColors","repeatWords"],
+			creators: ["singleWords","shadesOfGrey","primaryColors","repeatWords"],
 			producers: ["sinewaves","noise","squarewaves"]
 		}
 		
@@ -30,13 +30,13 @@ export default [
 		dp_url: "shades_of_grey.png",
 		type: "background",
 		collaborators: {
-			creators: ["singleImpactWords","repeatWords","primaryColors","mellowColors"],
+			creators: ["singleWords","repeatWords","primaryColors","mellowColors"],
 			producers: ["sinewaves","noise","squarewaves"]
 		}
 		
 	},
 	{
-		uid: "singleImpactWords",
+		uid: "singleWords",
 		name: "Big Words",
 		username: "wordsonscreen",
 		dp_url: "words.png",
@@ -57,6 +57,22 @@ export default [
 			producers: ["noise","squarewaves","sinewaves"]
 		}
 	},
+	// {
+	// 	uid: "colorfulTypography",
+	// 	name: "Colorful Typography",
+	// 	username: "colortype",
+	// 	dp_url: "colortype.png",
+	// 	type: "text",
+	// 	cocreator: true,
+	// 	collaborators: {
+	// 		cocreators: {
+	// 			color: ["shadesOfGrey","primaryColors","mellowColors"],
+	// 			text: ["singleWords","repeatWords"]
+	// 		},
+	// 		creators: ["shadesOfGrey","primaryColors","mellowColors"],
+	// 		producers: ["noise","squarewaves","sinewaves"]
+	// 	}
+	// }
 	// {
 	// 	uid: "nothing",
 	// 	name: "Nothing",

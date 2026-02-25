@@ -40,13 +40,13 @@ export class shadesOfGrey{
 		return div
 	}
 }
-export class singleImpactWords{
+export class singleWords{
 	constructor(seed){
 		this.seed = seed
 		return this.init()
 	}
 	init(){
-		let word = IMPACT_WORDS[Math.floor(this.seed*IMPACT_WORDS.length)]
+		let word = this.content()
 		let div = document.createElement("div")
 		div.classList.add("post_content")
 		let h1 = document.createElement("div")
@@ -56,6 +56,10 @@ export class singleImpactWords{
 		div.appendChild(h1)
 		return div
 	}
+	content(){
+		let word = IMPACT_WORDS[Math.floor(this.seed*IMPACT_WORDS.length)]
+		return word
+	}
 }
 export class repeatWords{
 	constructor(seed){
@@ -63,7 +67,7 @@ export class repeatWords{
 		return this.init()
 	}
 	init(){
-		let word = IMPACT_WORDS[Math.floor(this.seed*IMPACT_WORDS.length)]
+		let word = this.content()
 		let div = document.createElement("div")
 		div.classList.add("post_content")
 		let h1 = document.createElement("div")
@@ -71,6 +75,24 @@ export class repeatWords{
 		h1.style = "font-size:"+size+"px;color:white;line-height:1em;font-family:sans-serif;font-weight:bold;text-transform:uppercase;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"
 		h1.innerText = (word + "\n").repeat(10)
 		div.appendChild(h1)
+		return div
+	}
+	content(){
+		let word = IMPACT_WORDS[Math.floor(this.seed*IMPACT_WORDS.length)]
+		return word
+	}
+}
+export class colorfulTypography{
+	constructor(seed,creator){
+		this.seed = seed
+		console.log("COCREATE")
+		console.log(creator)
+		this.text = eval("new " + creator.cocreators.text.uid + "()")
+		console.log(this.text)
+		return this.init()
+	}
+	init(){
+		let div = document.createElement("div")
 		return div
 	}
 }

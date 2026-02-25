@@ -35,7 +35,17 @@ export class shadesOfGrey{
 
 
 
-export class singleImpactWords{
+export class singleWords{
+	constructor(seed){
+		this.seed = seed
+		this.caption = this.init()
+	}
+	init(){
+		return IMPACT_WORDS[Math.floor(this.seed*IMPACT_WORDS.length)].toLowerCase()
+	}
+}
+
+export class colorfulTypography{
 	constructor(seed){
 		this.seed = seed
 		this.caption = this.init()
