@@ -54,6 +54,6 @@ body,html{
 		transform: none;
 	}
 	#feed .post{
-		height: 100vh;
+		height: 100%;
 	}
 }

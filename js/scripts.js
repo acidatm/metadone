@@ -17,6 +17,9 @@ window.addEventListener("DOMContentLoaded",function(){
 		e.target.parentNode.removeChild(e.target)
 		init()
 	})
+	document.addEventListener('touchend', () => {
+		AUDIO.resume()
+	}
 
 	function init(){
 		
