@@ -19,7 +19,7 @@ window.addEventListener("DOMContentLoaded",function(){
 	})
 	document.addEventListener('touchend', () => {
 		AUDIO.resume()
-	}
+	})
 
 	function init(){
 		
