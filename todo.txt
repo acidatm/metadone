@@ -1,0 +1,7 @@
+collaborators
+- sound
+- post
+"minimal" algorithm
+user navigation
+like
+follow

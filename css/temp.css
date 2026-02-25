@@ -1,0 +1,12 @@
+.post_uid{
+	display: none;
+}
+#enable{
+	position: absolute;
+	color: white;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	font-size: 24px;
+	font-family: sans-serif;
+}
