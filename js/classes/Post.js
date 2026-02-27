@@ -46,18 +46,18 @@ export default class Post{
 				dataString = dataString + "&producer" + i + "=" + data.producers[i]
 			}
 			let url = window.location + dataString
-			console.log(url)
 			const shareData = {
 			  title: "Infinite Doom Scrolling",
 			  text: "I found this beautiful piece of content on infinitedoomscroll",
 			  url: url,
-			};
-			try {
-				let result = await navigator.share(drakeProfileData);
-				document.getElementById("status").innerText = result || '';
-			} catch(err) {
-				console.log("Share failed")
 			}
+			try {
+			    await navigator.share(shareData);
+			    console.log("shared successfull")
+			  } catch (err) {
+			  	console.log("share failed")
+			  	console.log(err)
+			  }
 		}
 	}
 	renderSidebar(){
