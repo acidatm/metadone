@@ -24,6 +24,21 @@ export default [
 		
 	},
 	{
+		uid: "gradients",
+		name: "Gradients",
+		username: "gradients",
+		dp_url: "mellow.png",
+		type: "background",
+		cocreators: {
+			color: ["mellowColors","primaryColors"]
+		},
+		collaborators: {
+			creators: ["singleWords","repeatWords"],
+			producers: ["sinewaves","noise","squarewaves"]
+		}
+		
+	},
+	{
 		uid: "shadesOfGrey",
 		name: "50 Shades of Grey",
 		username: "50shadesofgrey",
@@ -34,6 +49,21 @@ export default [
 			producers: ["sinewaves","noise","squarewaves"]
 		}
 		
+	},
+	{
+		uid: "colorType",
+		name: "Colorful Typography",
+		username: "colorful_typography",
+		dp_url: "words.png",
+		type: "text",
+		cocreators: {
+			color: ["mellowColors","primaryColors"],
+			text: ["singleWords","repeatWords"]
+		},
+		collaborators: {
+			creators: ["shadesOfGrey","mellowColors","primaryColors"],
+			producers: ["noise","squarewaves","sinewaves"]
+		}
 	},
 	{
 		uid: "singleWords",
@@ -56,32 +86,5 @@ export default [
 			creators: ["shadesOfGrey","primaryColors","mellowColors"],
 			producers: ["noise","squarewaves","sinewaves"]
 		}
-	},
-	// {
-	// 	uid: "colorfulTypography",
-	// 	name: "Colorful Typography",
-	// 	username: "colortype",
-	// 	dp_url: "colortype.png",
-	// 	type: "text",
-	// 	cocreator: true,
-	// 	collaborators: {
-	// 		cocreators: {
-	// 			color: ["shadesOfGrey","primaryColors","mellowColors"],
-	// 			text: ["singleWords","repeatWords"]
-	// 		},
-	// 		creators: ["shadesOfGrey","primaryColors","mellowColors"],
-	// 		producers: ["noise","squarewaves","sinewaves"]
-	// 	}
-	// }
-	// {
-	// 	uid: "nothing",
-	// 	name: "Nothing",
-	// 	username: "nothing",
-	// 	dp_url: "nothing.png",
-	// 	type: "background",
-	// 	collaborators: {
-	// 		creators: [],
-	// 		producers: []
-	// 	}
-	// },
+	}
 ]

@@ -4,6 +4,7 @@ import User from "/js/classes/User.js"
 import AlmightyAlgorithm from "/js/classes/AlmightyAlgorithm.js"
 
 const MAIN = document.getElementById("main")
+const USER = new User()
 let AUDIO
 let FEED
 const enable = document.getElementById("enable")
@@ -21,7 +22,7 @@ function init(){
 	ul.id = "feed"
 	MAIN.appendChild(ul)
 
-	FEED = new Feed(ul,AA,AUDIO)
+	FEED = new Feed(ul,AA,AUDIO,USER)
 
 	resize()
 	// FEED.generate()

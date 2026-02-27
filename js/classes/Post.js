@@ -1,20 +1,126 @@
 import music_svg from "/res/images/js_svg/music.js"
+import share_svg from "/res/images/js_svg/share.js"
+import save_svg from "/res/images/js_svg/save.js"
+import saved_svg from "/res/images/js_svg/saved.js"
+import like_svg from "/res/images/js_svg/like.js"
+import liked_svg from "/res/images/js_svg/liked.js"
 
 export default class Post{
-	constructor(root,id,content){
+	constructor(root,id,content,user){
 		this.node = root,
 		this.id = id
 		this.content = content
 		this.sound = null
+		this.sidebar = null
+		this.user = user
 		this.render()
 	}
+	events = {
+		like: function(){
+			this.node.classList.add("liked")
+			this.user.like(this)
+		},
+		unlike: function(){
+			this.node.classList.remove("liked")
+			this.user.unlike(this)
+		},
+		save: function(){
+			this.node.classList.add("saved")
+			this.user.save(this)
+		},
+		remove: function(){
+			this.node.classList.remove("saved")
+			this.user.remove(this)
+		},
+		share: async function(){
+			const data = {
+				seed: this.content.seed,
+				creators: this.content.creators.map((c) => c.uid),
+				producers: this.content.producers.map((p) => p.uid)
+			}
+			let dataString = "?seed=" + data.seed
+			for(let i = 0; i < data.creators.length; i++){
+				dataString = dataString + "&creator" + i + "=" + data.creators[i]
+			}
+			for(let i = 0; i < data.producers.length; i++){
+				dataString = dataString + "&producer" + i + "=" + data.producers[i]
+			}
+			let url = window.location + dataString
+			console.log(url)
+			const shareData = {
+			  title: "Infinite Doom Scrolling",
+			  text: "I found this beautiful piece of content on infinitedoomscroll",
+			  url: url,
+			};
+			try {
+				let result = await navigator.share(drakeProfileData);
+				document.getElementById("status").innerText = result || '';
+			} catch(err) {
+				console.log("Share failed")
+			}
+		}
+	}
+	renderSidebar(){
+		let sidebar = document.createElement("div")
+		sidebar.classList.add("post_sidebar")
+		let like = document.createElement("div")
+		let liked = document.createElement("div")
+		let likeText = document.createElement("div")
+		like.classList.add("post_like")
+		like.classList.add("post_sidebar-button")
+		liked.classList.add("post_liked")
+		liked.classList.add("post_sidebar-button")
+		likeText.classList.add("post_sidebar-text")
+		likeText.classList.add("post_like-text")
+		like.innerHTML = like_svg
+		liked.innerHTML = liked_svg
+		likeText.innerText = "Like"
+		let share = document.createElement("div")
+		let shareText = document.createElement("div")
+		share.classList.add("post_share")
+		share.classList.add("post_sidebar-button")
+		shareText.classList.add("post_sidebar-text")
+		shareText.classList.add("post_share-text")
+		share.innerHTML = share_svg
+		shareText.innerText = "Share"
+		let save = document.createElement("div")
+		let saved = document.createElement("div")
+		let saveText = document.createElement("div")
+		save.classList.add("post_save")
+		save.classList.add("post_sidebar-button")
+		saved.classList.add("post_saved")
+		saved.classList.add("post_sidebar-button")
+		saveText.classList.add("post_sidebar-text")
+		saveText.classList.add("post_save-text")
+		save.innerHTML = save_svg
+		saved.innerHTML = saved_svg
+		saveText.innerText = "Save"
+
+		save.addEventListener("click",this.events.save.bind(this))
+		saved.addEventListener("click",this.events.remove.bind(this))
+		like.addEventListener("click",this.events.like.bind(this))
+		liked.addEventListener("click",this.events.unlike.bind(this))
+		share.addEventListener("click",this.events.share.bind(this))
+
+		sidebar.appendChild(like)
+		sidebar.appendChild(liked)
+		sidebar.appendChild(likeText)
+		sidebar.appendChild(share)
+		sidebar.appendChild(shareText)
+		sidebar.appendChild(save)
+		sidebar.appendChild(saved)
+		sidebar.appendChild(saveText)
+		this.node.appendChild(sidebar)
+	}
 	render(){
+		this.renderSidebar()
 		this.node.classList.add("post")
 		this.node.style.background = this.content.background
 
 		if(this.content.creators.length > 1){
 			this.node.classList.add("collaborative")
 		}
+
 
 		
 		let username = document.createElement("h2")
@@ -61,7 +167,7 @@ export default class Post{
 			let d = ""
 			for(let i = 0; i < this.content.captions.length; i++){
 				let c = this.content.captions[i]
-				d = d + c + (i < this.content.captions.length - 1 ? ". " : "")
+				d = d + c + (i < this.content.captions.length - 1 ? "" : "")
 			}
 			desc.innerText = d
 		}

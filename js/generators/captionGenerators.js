@@ -1,14 +1,30 @@
-import PRIMARY_COLORS from "/data/lists/primaryColors.js"
-import MELLOW_COLORS from "/data/lists/mellowColors.js"
-import IMPACT_WORDS from "/data/lists/impactWords.js"
+import COLORS from "/data/lists/colors.js"
+import WORDS from "/data/lists/words.js"
 
+
+export class gradients{
+	constructor(seed,cocreators){
+		this.seed = seed
+		this.cocreator = cocreators.color
+		this.caption = this.init()
+	}
+	init(){
+		return "from " + this.content(this.seed) + " to " + this.content((this.seed + 0.5) % 1)
+	}
+	content(seed){
+		return this.cocreator.content(seed)
+	}
+}
 export class primaryColors{
 	constructor(seed){
 		this.seed = seed
 		this.caption = this.init()
 	}
 	init(){
-		return PRIMARY_COLORS[Math.floor(this.seed*PRIMARY_COLORS.length)].name + " is beautiful"
+		return this.content(this.seed) + ""
+	}
+	content(seed){
+		return COLORS.primary[Math.floor(seed*COLORS.primary.length)].name
 	}
 }
 
@@ -18,7 +34,10 @@ export class mellowColors{
 		this.caption = this.init()
 	}
 	init(){
-		return MELLOW_COLORS[Math.floor(this.seed*MELLOW_COLORS.length)].name + " is mellow"
+		return this.content(this.seed) + ""
+	}
+	content(seed){
+		return COLORS.mellow[Math.floor(seed*COLORS.mellow.length)].name
 	}
 }
 
@@ -33,7 +52,20 @@ export class shadesOfGrey{
 	}
 }
 
-
+export class colorType{
+	constructor(seed,cocreators){
+		this.seed = seed
+		this.text = cocreators.text
+		this.color = cocreators.color
+		this.caption = this.init()
+	}
+	init(){
+		return this.text.content(this.seed) + " set in " + this.color.content(this.seed)
+	}
+	content(){
+		return ""
+	}
+}
 
 export class singleWords{
 	constructor(seed){
@@ -41,17 +73,10 @@ export class singleWords{
 		this.caption = this.init()
 	}
 	init(){
-		return IMPACT_WORDS[Math.floor(this.seed*IMPACT_WORDS.length)].toLowerCase()
+		return this.content(this.seed)
 	}
-}
-
-export class colorfulTypography{
-	constructor(seed){
-		this.seed = seed
-		this.caption = this.init()
-	}
-	init(){
-		return IMPACT_WORDS[Math.floor(this.seed*IMPACT_WORDS.length)].toLowerCase()
+	content(seed){
+		return WORDS.impactful[Math.floor(this.seed*WORDS.impactful.length)].toUpperCase()
 	}
 }
 
@@ -61,8 +86,11 @@ export class repeatWords{
 		this.caption = this.init()
 	}
 	init(){
-		let w = IMPACT_WORDS[Math.floor(this.seed*IMPACT_WORDS.length)].toLowerCase()
-		return (w + " ").repeat(10)
+		return this.content(this.seed)
+	}
+	content(seed){
+		// return ((WORDS.impactful[Math.floor(seed*WORDS.impactful.length)].toUpperCase()) + " ").repeat(10)
+		return WORDS.impactful[Math.floor(this.seed*WORDS.impactful.length)].toUpperCase()
 	}
 }
 

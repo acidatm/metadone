@@ -1,14 +1,14 @@
 export default [
 	{
 		hex:"#ff0000",
-		name: "red"
+		name: "Red"
 	},
 	{
 		hex: "#00ff00",
-		name: "green"
+		name: "Green"
 	},
 	{
 		hex: "#0000ff",
-		name: "blue"
+		name: "Blue"
 	}
 ]

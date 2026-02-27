@@ -1,9 +1,10 @@
 import Post from "./post.js"
 
 export default class Feed{
-	constructor(node,algo,audio_ctx){
+	constructor(node,algo,audio_ctx,user){
 		this.ALGORITHM = algo
 		this.AUDIO_CTX = audio_ctx
+		this.USER = user
 
 		this._lastScrollPosition = 0
 		this.node = node,
@@ -83,7 +84,7 @@ export default class Feed{
 	generatePost(content){
 		let li = document.createElement("li")
 		let id = this.posts.length
-		let post = new Post(li,id,content)
+		let post = new Post(li,id,content,this.USER)
 		this.posts.push(post)
 		this.node.appendChild(li)
 	}

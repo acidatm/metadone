@@ -1,6 +1,5 @@
 import PostContent from "./PostContent.js"
 import ContentCreator from "./ContentCreator.js"
-import CoCreator from "./CoCreator.js"
 import AudioProducer from "./AudioProducer.js"
 
 export default class AlmightyAlgorithm{
@@ -11,20 +10,23 @@ export default class AlmightyAlgorithm{
 	}
 	requestContent(history){
 		//DO ALGO STUFF
-		let creators = [new ContentCreator()]
+		// let creators = [new ContentCreator()]
+		let creators = [new ContentCreator(["colorType"])]
 		let producers = [new AudioProducer(creators[0].collaborators.producers)]
 
 
-		let creatorCollab = creators.cocreator ? true : Math.round(Math.random()) == 1 ? true : false
+		let creatorCollab = Math.round(Math.random()) == 1 ? true : false
 		let producerCollab = Math.round(Math.random()) == 1 ? true : false
 
-		if(creatorCollab){
-			if(!creators[0].cocreator && creators[0].collaborators.creators.length != 0){
-				creators.push(new ContentCreator(creators[0].collaborators.creators))
+		if(creators[0].cocreators){
+			creators[0].cocreator = {}
+			for(let k of Object.keys(creators[0].cocreators)){
+				creators[0].cocreator[k] = new ContentCreator(creators[0].cocreators[k])
 			}
-			else if(creators[0].cocreator){
-				creators[0] = new CoCreator(creators[0])
-				console.log(creators[0].cocreators)
+		}
+
+		if(creatorCollab){
+			if(creators[0].collaborators.creators.length > 0){
 				creators.push(new ContentCreator(creators[0].collaborators.creators))
 			}
 		}
@@ -37,10 +39,8 @@ export default class AlmightyAlgorithm{
 			
 		}
 
-		
 		let content = new PostContent(creators,producers,this.AUDIO)
 		
-
 		return content
 	}
 }

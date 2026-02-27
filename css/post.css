@@ -1,3 +1,50 @@
+.post .post_sidebar{
+	position: absolute;
+	right: 16px;
+	bottom: 96px;
+	width: auto;
+	height: auto;
+	color: white;
+	z-index: 1000;
+	text-align: center;
+}
+.post .post_sidebar-button{
+	width: auto;
+	height: auto;
+	margin-bottom: 12px;
+	cursor: pointer;
+	transition: transform 0.1s ease-in-out;
+}
+.post .post_sidebar-button svg{
+	width: 100%;
+	height: auto;
+}
+.post .post_sidebar-button:hover{
+	transform: scale(110%);
+}
+.post .post_sidebar-text{
+	width: auto;
+	font-size: 13px;
+	line-height: 1em;
+	font-weight: 500;
+	font-family: sans-serif;
+	text-align: center;
+	margin-bottom: 16px;
+	margin-top: 3px;
+	display: none;
+}
+.post .post_liked,
+.post .post_saved{
+	display: none;
+}
+.post.liked .post_liked,
+.post.saved .post_saved{
+	display: block;
+}
+.post.liked .post_like,
+.post.saved .post_save{
+	display: none;
+}
 .post .post_profilePicture{
 	position: absolute;
 	left: 16px;
@@ -27,6 +74,7 @@
 	padding: 0;
 	color: white;
 	z-index: 1000;
+	max-width: calc(100% - 74px);
 }
 .post .post_description{
 	margin: 0;

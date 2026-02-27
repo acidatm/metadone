@@ -4,6 +4,7 @@ import {uidFromArray} from "/js/tools/tools.js"
 export default class ContentCreator{
 	constructor(creator){
 		this.creator = creator
+		this.cocreator = null
 		if(!this.creator || this.creator == null){
 			this.creator = CREATORS[Math.floor(Math.random() * CREATORS.length)]
 		}
