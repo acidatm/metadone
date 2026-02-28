@@ -11,12 +11,14 @@ export default class AlmightyAlgorithm{
 	requestContent(history){
 		//DO ALGO STUFF
 		// let creators = [new ContentCreator()]
-		let creators = [new ContentCreator(["colorType"])]
-		let producers = [new AudioProducer(creators[0].collaborators.producers)]
+		let creators = [new ContentCreator()]
+		// let producers = [new AudioProducer(creators[0].collaborators.producers)]
+		let producers = [new AudioProducer(["ikeda"])]
 
 
 		let creatorCollab = Math.round(Math.random()) == 1 ? true : false
 		let producerCollab = Math.round(Math.random()) == 1 ? true : false
+		producerCollab = true
 
 		if(creators[0].cocreators){
 			creators[0].cocreator = {}

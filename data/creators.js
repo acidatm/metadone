@@ -7,7 +7,7 @@ export default [
 		type: "background",
 		collaborators: {
 			creators: ["singleWords","shadesOfGrey","mellowColors","repeatWords"],
-			producers: ["sinewaves","squarewaves","noise"]
+			producers: ["sinewaves","noise","squarewaves","bells","ikeda"]
 		}
 		
 	},
@@ -19,7 +19,7 @@ export default [
 		type: "background",
 		collaborators: {
 			creators: ["singleWords","shadesOfGrey","primaryColors","repeatWords"],
-			producers: ["sinewaves","noise","squarewaves"]
+			producers: ["sinewaves","noise","squarewaves","bells","ikeda"]
 		}
 		
 	},
@@ -34,9 +34,23 @@ export default [
 		},
 		collaborators: {
 			creators: ["singleWords","repeatWords"],
-			producers: ["sinewaves","noise","squarewaves"]
+			producers: ["sinewaves","noise","squarewaves","bells","ikeda"]
 		}
 		
+	},
+	{
+		uid: "splits",
+		name: "Colorfields",
+		username: "wishrothko",
+		dp_url: "rothko.png",
+		type: "background",
+		cocreators: {
+			color: ["mellowColors","primaryColors"]
+		},
+		collaborators: {
+			creators: ["singleWords","repeatWords","transWords"],
+			producers: ["sinewaves","noise","squarewaves","bells","ikeda"]
+		}
 	},
 	{
 		uid: "shadesOfGrey",
@@ -46,7 +60,7 @@ export default [
 		type: "background",
 		collaborators: {
 			creators: ["singleWords","repeatWords","primaryColors","mellowColors"],
-			producers: ["sinewaves","noise","squarewaves"]
+			producers: ["sinewaves","noise","squarewaves","bells","ikeda"]
 		}
 		
 	},
@@ -62,7 +76,7 @@ export default [
 		},
 		collaborators: {
 			creators: ["shadesOfGrey","mellowColors","primaryColors"],
-			producers: ["noise","squarewaves","sinewaves"]
+			producers: ["sinewaves","noise","squarewaves","bells","ikeda"]
 		}
 	},
 	{
@@ -73,7 +87,7 @@ export default [
 		type: "text",
 		collaborators: {
 			creators: ["shadesOfGrey","mellowColors","primaryColors"],
-			producers: ["noise","squarewaves","sinewaves"]
+			producers: ["sinewaves","noise","squarewaves","bells","ikeda"]
 		}
 	},
 	{
@@ -84,7 +98,18 @@ export default [
 		type: "text",
 		collaborators: {
 			creators: ["shadesOfGrey","primaryColors","mellowColors"],
-			producers: ["noise","squarewaves","sinewaves"]
+			producers: ["sinewaves","noise","squarewaves","bells","ikeda"]
+		}
+	},
+	{
+		uid: "transWords",
+		name: "Words of the World",
+		username: "worldwords",
+		dp_url: "words.png",
+		type: "text",
+		collaborators: {
+			creators: ["shadesOfGrey","primaryColors","mellowColors"],
+			producers: ["sinewaves","noise","squarewaves","bells","ikeda"]
 		}
 	}
 ]

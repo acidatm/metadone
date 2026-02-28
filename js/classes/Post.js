@@ -161,7 +161,7 @@ export default class Post{
 			}
 		}
 		if(this.content.creators.length == 1){
-			desc.innerText = this.content.captions[0]
+			desc.innerText = this.content.captions[0].toLowerCase()
 		}
 		else{
 			let d = ""
@@ -169,7 +169,7 @@ export default class Post{
 				let c = this.content.captions[i]
 				d = d + c + (i < this.content.captions.length - 1 ? "" : "")
 			}
-			desc.innerText = d
+			desc.innerText = d.toLowerCase()
 		}
 		this.node.appendChild(gradient)
 		this.node.appendChild(username)

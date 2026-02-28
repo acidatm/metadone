@@ -1,6 +1,7 @@
 import * as HTML_GENERATORS from "/js/generators/htmlGenerators.js"
 import * as AUDIO_GENERATORS from "/js/generators/audioGenerators.js"
 import * as CAPTION_GENERATORS from "/js/generators/captionGenerators.js"
+import {languages as LANGUAGES} from "/data/lists/words.js"
 
 export default class PostContent{
 	constructor(creators,producers,ctx){
@@ -12,6 +13,9 @@ export default class PostContent{
 		this.sound = []
 		this.captions = []
 
+		this.language = LANGUAGES[Math.floor(Math.random() * LANGUAGES.length)]
+		this.topic = "soft"
+
 		this.seed = (Math.random() * performance.now()) % 1 
 		this.init()
 	}
@@ -21,14 +25,15 @@ export default class PostContent{
 		this.generateCaption()
 	}
 	generateHTML(){
+		console.log(this.topic,this.language)
 		for(let c of this.creators){
 			let cocreators = {}
 			if(c.cocreator){
 				for(let k of Object.keys(c.cocreator)){
-					cocreators[k] = new HTML_GENERATORS[c.cocreator[k].uid](this.seed)
+					cocreators[k] = new HTML_GENERATORS[c.cocreator[k].uid]({seed:this.seed,list:this.topic,language:this.language})
 				}
 			}
-			this.html.push(new HTML_GENERATORS[c.uid](this.seed,cocreators).html)
+			this.html.push(new HTML_GENERATORS[c.uid]({seed:this.seed,list:this.topic,language:this.language},cocreators).html)
 		}
 	}
 	generateSound(){
@@ -44,10 +49,10 @@ export default class PostContent{
 			let cocreators = {}
 			if(c.cocreator){
 				for(let k of Object.keys(c.cocreator)){
-					cocreators[k] = new CAPTION_GENERATORS[c.cocreator[k].uid](this.seed)
+					cocreators[k] = new CAPTION_GENERATORS[c.cocreator[k].uid]({seed:this.seed,list:this.topic,language:this.language})
 				}
 			}
-			this.captions.push(new CAPTION_GENERATORS[c.uid](this.seed,cocreators).caption)
+			this.captions.push(new CAPTION_GENERATORS[c.uid]({seed:this.seed,list:this.topic,language:this.language},cocreators).caption)
 			if(i < this.creators.length -1){
 				this.captions.push(" on ")
 			}

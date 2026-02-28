@@ -3,8 +3,8 @@ import WORDS from "/data/lists/words.js"
 
 
 export class gradients{
-	constructor(seed,cocreators){
-		this.seed = seed
+	constructor(data,cocreators){
+		this.seed = data.seed
 		this.cocreator = cocreators.color
 		this.caption = this.init()
 	}
@@ -15,9 +15,22 @@ export class gradients{
 		return this.cocreator.content(seed)
 	}
 }
+export class splits{
+	constructor(data,cocreators){
+		this.seed = data.seed
+		this.cocreator = cocreators.color
+		this.caption = this.init()
+	}
+	init(){
+		return this.content(this.seed) + " and " + this.content((this.seed + 0.5) % 1)
+	}
+	content(seed){
+		return this.cocreator.content(seed)
+	}
+}
 export class primaryColors{
-	constructor(seed){
-		this.seed = seed
+	constructor(data){
+		this.seed = data.seed
 		this.caption = this.init()
 	}
 	init(){
@@ -29,8 +42,8 @@ export class primaryColors{
 }
 
 export class mellowColors{
-	constructor(seed){
-		this.seed = seed
+	constructor(data){
+		this.seed = data.seed
 		this.caption = this.init()
 	}
 	init(){
@@ -43,8 +56,8 @@ export class mellowColors{
 
 
 export class shadesOfGrey{
-	constructor(seed){
-		this.seed = seed
+	constructor(data){
+		this.seed = data.seed
 		this.caption = this.init()
 	}
 	init(){
@@ -53,14 +66,16 @@ export class shadesOfGrey{
 }
 
 export class colorType{
-	constructor(seed,cocreators){
-		this.seed = seed
+	constructor(data,cocreators){
+		this.seed = data.seed
+		this.list = data.list
+		this.language = data.language
 		this.text = cocreators.text
 		this.color = cocreators.color
 		this.caption = this.init()
 	}
 	init(){
-		return this.text.content(this.seed) + " set in " + this.color.content(this.seed)
+		return this.text.content(this.seed,this.list,this.language) + " set in " + this.color.content(this.seed)
 	}
 	content(){
 		return ""
@@ -68,29 +83,47 @@ export class colorType{
 }
 
 export class singleWords{
-	constructor(seed){
-		this.seed = seed
+	constructor(data){
+		this.seed = data.seed
+		this.list = data.list
+		this.language = data.language
 		this.caption = this.init()
 	}
 	init(){
-		return this.content(this.seed)
+		return this.content(this.seed,this.list,this.language)
 	}
-	content(seed){
-		return WORDS.impactful[Math.floor(this.seed*WORDS.impactful.length)].toUpperCase()
+	content(seed,list,language){
+		return WORDS[list][Math.floor(seed*WORDS[list].length)]["en"]
+	}
+}
+export class transWords{
+	constructor(data){
+		this.seed = data.seed
+		this.list = data.list
+		this.language = data.language
+		this.caption = this.init()
+	}
+	init(){
+		return this.content(this.seed,this.list,this.language)
+	}
+	content(seed,list,language){
+		return WORDS[list][Math.floor(seed*WORDS[list].length)]["en"]
 	}
 }
 
 export class repeatWords{
-	constructor(seed){
-		this.seed = seed
+	constructor(data){
+		this.seed = data.seed
+		this.list = data.list
+		this.language = data.language
 		this.caption = this.init()
 	}
 	init(){
-		return this.content(this.seed)
+		return this.content(this.seed,this.list,this.language)
 	}
-	content(seed){
+	content(seed,list,language){
 		// return ((WORDS.impactful[Math.floor(seed*WORDS.impactful.length)].toUpperCase()) + " ").repeat(10)
-		return WORDS.impactful[Math.floor(this.seed*WORDS.impactful.length)].toUpperCase()
+		return WORDS[list][Math.floor(this.seed*WORDS[list].length)]["en"]
 	}
 }
 

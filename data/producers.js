@@ -6,6 +6,24 @@ export default [
 		
 	},
 	{
+		uid: "discord",
+		name: "Discord",
+		username: "discord"
+		
+	},
+	{
+		uid: "bells",
+		name: "Jeff Bells",
+		username: "wishjeff"
+		
+	},
+	{
+		uid: "ikeda",
+		name: "Taobao Ikeda",
+		username: "ryoikeda"
+		
+	},
+	{
 		uid: "squarewaves",
 		name: "Squarewaves",
 		username: "square"
