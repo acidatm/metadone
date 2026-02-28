@@ -25,7 +25,6 @@ export default class PostContent{
 		this.generateCaption()
 	}
 	generateHTML(){
-		console.log(this.topic,this.language)
 		for(let c of this.creators){
 			let cocreators = {}
 			if(c.cocreator){

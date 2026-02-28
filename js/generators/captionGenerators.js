@@ -1,7 +1,11 @@
 import COLORS from "/data/lists/colors.js"
 import WORDS from "/data/lists/words.js"
 
-
+export class ad{
+	constructor(){
+		this.caption = "This artwork is financed through advertisement!"
+	}
+}
 export class gradients{
 	constructor(data,cocreators){
 		this.seed = data.seed

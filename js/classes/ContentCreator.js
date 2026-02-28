@@ -1,4 +1,5 @@
 import CREATORS from "/data/creators.js"
+import ADVERTISERS from "/data/advertisers.js"
 import {uidFromArray} from "/js/tools/tools.js"
 
 export default class ContentCreator{
@@ -14,7 +15,13 @@ export default class ContentCreator{
 			}
 			else{
 				let c = this.creator[Math.floor(Math.random() * this.creator.length)]
-				let creator = uidFromArray(c,CREATORS)
+				let creator
+				if(c == "ad"){
+					creator = uidFromArray(c,ADVERTISERS)
+				}
+				else{
+					creator = uidFromArray(c,CREATORS)
+				}
 				this.creator = creator
 			}
 			

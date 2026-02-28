@@ -6,6 +6,8 @@ export default class Feed{
 		this.ALGORITHM = algo
 		this.AUDIO_CTX = audio_ctx
 		this.USER = user
+		this.AD = document.createElement("li")
+		let ad = new Ad(this.AD,-1,this.ALGORITHM.requestAd(),user)
 
 		this._lastScrollPosition = 0
 		this.node = node,
@@ -16,8 +18,8 @@ export default class Feed{
 			ref: null
 		},
 		this.buffer ={
-			size: 10,
-			generate: 20
+			size: 5,
+			generate: 10
 		}
 
 		this.init()
@@ -77,7 +79,10 @@ export default class Feed{
 	}
 	generate(){
 		let n = this.buffer.generate
-		this.generateAd()
+		if(this.AD.parentNode){
+			this.AD.parentNode.removeChild(this.AD)
+		}
+		this.node.appendChild(this.AD)
 		for(let i = 0; i < n; i++){
 			let content = this.ALGORITHM.requestContent(this.posts)
 			this.generatePost(content)
@@ -89,9 +94,5 @@ export default class Feed{
 		let post = new Post(li,id,content,this.USER)
 		this.posts.push(post)
 		this.node.appendChild(li)
-	}
-	generateAd(){
-		let ad = new Ad()
-		this.node.appendChild(ad)
 	}
 }

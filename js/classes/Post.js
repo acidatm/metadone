@@ -6,13 +6,14 @@ import like_svg from "/res/images/js_svg/like.js"
 import liked_svg from "/res/images/js_svg/liked.js"
 
 export default class Post{
-	constructor(root,id,content,user){
-		this.node = root,
+	constructor(root,id,content,user,isAd){
+		this.node = root
 		this.id = id
 		this.content = content
 		this.sound = null
 		this.sidebar = null
 		this.user = user
+		this.isAd = isAd
 		this.render()
 	}
 	events = {
@@ -112,11 +113,31 @@ export default class Post{
 		sidebar.appendChild(saveText)
 		this.node.appendChild(sidebar)
 	}
-	render(){
-		this.renderSidebar()
-		this.node.classList.add("post")
-		this.node.style.background = this.content.background
-
+	renderContent(){
+		let backgrounds = []
+		let texts = []
+		for(let i = 0; i < this.content.creators.length; i++){
+			let c = this.content.creators[i]
+			switch(c.type){
+				case "background":
+					backgrounds.push(this.content.html[i])
+					break
+				case "text":
+					texts.push(this.content.html[i])
+					break
+			}
+		}
+		for(let b of backgrounds){
+			if(backgrounds.length > 1){
+				b.style.opacity = "0.5"
+			}
+			this.node.appendChild(b)
+		}
+		for(let t of texts){
+			this.node.appendChild(t)
+		}
+	}
+	renderCreators(){
 		if(this.content.creators.length > 1){
 			this.node.classList.add("collaborative")
 		}
@@ -175,31 +196,8 @@ export default class Post{
 		this.node.appendChild(username)
 		this.node.appendChild(desc)
 		this.node.appendChild(id)
-
-		let backgrounds = []
-		let texts = []
-		for(let i = 0; i < this.content.creators.length; i++){
-			let c = this.content.creators[i]
-			switch(c.type){
-				case "background":
-					backgrounds.push(this.content.html[i])
-					break
-				case "text":
-					texts.push(this.content.html[i])
-					break
-			}
-		}
-		for(let b of backgrounds){
-			if(backgrounds.length > 1){
-				b.style.opacity = "0.5"
-			}
-			this.node.appendChild(b)
-		}
-		for(let t of texts){
-			this.node.appendChild(t)
-		}
-		
-
+	}
+	renderProducers(){
 		if(this.content.sound.length > 0){
 			this.sound = this.content.sound
 			let music = document.createElement("div")
@@ -236,5 +234,15 @@ export default class Post{
 			producer.appendChild(inner)
 			this.node.appendChild(producer)
 		}
+	}
+	render(){
+		if(!this.isAd){
+			this.renderSidebar()
+			this.renderContent()
+			this.renderProducers()
+			
+		}
+		this.renderCreators()
+		this.node.classList.add("post")
 	}
 }

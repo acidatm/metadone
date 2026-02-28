@@ -2,6 +2,18 @@ import COLORS from "/data/lists/colors.js"
 import WORDS from "/data/lists/words.js"
 import {languages as LANGUAGES} from "/data/lists/words.js"
 
+export class ad{
+	constructor(){
+		this.id = "container-f93df89f606631407709f4d216ee7f95"
+		this.html = document.createElement("div")
+		let inner = document.createElement("div")
+		this.html.classList.add("post_ad")
+		inner.classList.add("post_ad-inner")
+		inner.id = this.id
+		this.html.appendChild(inner)
+	}
+}
+
 export class gradients{
 	constructor(data,cocreators){
 		this.seed = data.seed
@@ -126,7 +138,6 @@ export class singleWords{
 		return div
 	}
 	content(seed,list,language){
-		console.log(list,language)
 		let word = WORDS[list][Math.floor(seed*WORDS.impactful.length)][language]
 		return word
 	}

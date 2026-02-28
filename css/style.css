@@ -45,12 +45,13 @@ body,html{
 	position: relative;
 	background: black;
 }
-#feed .post_ad{
-	background: red;
+#feed .post_ad-inner{
 	font-family: sans-serif;
 	font-size: 14px;
 	color: white;
-	font-weight: 400;
+	font-weight: 400 !important;
+	box-sizing: border-box;
+	padding: 16px;
 }
 @media (max-aspect-ratio: 1/1){
 	#main{

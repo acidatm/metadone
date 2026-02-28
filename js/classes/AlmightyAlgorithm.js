@@ -1,4 +1,5 @@
 import PostContent from "./PostContent.js"
+import AdContent from "./AdContent.js"
 import ContentCreator from "./ContentCreator.js"
 import AudioProducer from "./AudioProducer.js"
 
@@ -8,12 +9,15 @@ export default class AlmightyAlgorithm{
 		this.LOGIC = logic
 		this.AUDIO = audio
 	}
+	requestAd(){
+		return new AdContent(new ContentCreator(["ad"]))
+	}
 	requestContent(history){
 		//DO ALGO STUFF
-		// let creators = [new ContentCreator()]
 		let creators = [new ContentCreator()]
-		// let producers = [new AudioProducer(creators[0].collaborators.producers)]
-		let producers = [new AudioProducer(["ikeda"])]
+		// let creators = [new ContentCreator(["ad"])]
+		let producers = [new AudioProducer(creators[0].collaborators.producers)]
+		// let producers = [new AudioProducer(["ikeda"])]
 
 
 		let creatorCollab = Math.round(Math.random()) == 1 ? true : false

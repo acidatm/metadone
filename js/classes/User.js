@@ -23,10 +23,10 @@ export default class User{
 	_init(){
 		if(this._hasLocalData){
 			this._refresh()
-			console.log("Set user data from local storage")
+			// console.log("Set user data from local storage")
 		}
 		else{
-			console.log("No local user data found!")
+			// console.log("No local user data found!")
 		}
 	}
 	_save(){
@@ -43,7 +43,6 @@ export default class User{
 		let json = this._getLocalStorage()
 		this.liked = json.liked
 		this.saved = json.saved
-		console.log(this)
 	}
 	_getLocalStorage(){
 		const data = localStorage.getItem("data")
@@ -51,7 +50,6 @@ export default class User{
 		return json
 	}
 	_setLocalStorage(){
-		console.log(this)
 		localStorage.setItem("data", this._toJSON())
 	}
 	_toJSON(){
