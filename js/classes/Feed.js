@@ -1,4 +1,5 @@
-import Post from "./post.js"
+import Post from "./Post.js"
+import Ad from "./Ad.js"
 
 export default class Feed{
 	constructor(node,algo,audio_ctx,user){
@@ -76,6 +77,7 @@ export default class Feed{
 	}
 	generate(){
 		let n = this.buffer.generate
+		this.generateAd()
 		for(let i = 0; i < n; i++){
 			let content = this.ALGORITHM.requestContent(this.posts)
 			this.generatePost(content)
@@ -87,5 +89,9 @@ export default class Feed{
 		let post = new Post(li,id,content,this.USER)
 		this.posts.push(post)
 		this.node.appendChild(li)
+	}
+	generateAd(){
+		let ad = new Ad()
+		this.node.appendChild(ad)
 	}
 }
