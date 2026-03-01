@@ -9,6 +9,10 @@ export default class ContentCreator{
 		if(!this.creator || this.creator == null){
 			this.creator = CREATORS[Math.floor(Math.random() * CREATORS.length)]
 		}
+		else if(this.creator != null && typeof this.creator == "string"){
+			let creator = uidFromArray(this.creator,CREATORS)
+			this.creator = creator
+		}
 		else if(this.creator != null && typeof this.creator == "object"){
 			if(this.creator.length == 0){
 				this.creator = null

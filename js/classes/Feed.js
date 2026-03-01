@@ -18,8 +18,8 @@ export default class Feed{
 			ref: null
 		},
 		this.buffer ={
-			size: 10,
-			generate: 20
+			size: 5,
+			generate: 10
 		}
 
 		this.init()
@@ -44,6 +44,7 @@ export default class Feed{
 				this._lastScrollPosition = this.node.scrollTop
 				let active = Math.floor((this.node.scrollTop + 0.5 * this.height) / this.height)
 				if(this.activePost.index != active){
+					this.posts[this.activePost.index].finish()
 					if(this.activePost.ref){
 						this.activePost.ref.node.classList.remove("active")
 						if(this.activePost.ref.sound){
@@ -64,6 +65,7 @@ export default class Feed{
 	activatePost(index){
 		this.activePost.index = index
 		this.activePost.ref = this.posts[this.activePost.index]
+		this.posts[this.activePost.index].activate()
 		this.activePost.ref.node.classList.add("active")
 		if(this.activePost.ref.sound){
 			for(let s of this.activePost.ref.sound){

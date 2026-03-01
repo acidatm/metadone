@@ -53,6 +53,7 @@ export class splits{
 export class primaryColors{
 	constructor(data){
 		this.seed = data.seed
+		this.inputs = data.inputs
 		this.html = this.init()
 	}
 	init(){
@@ -62,7 +63,8 @@ export class primaryColors{
 		return div
 	}
 	content(seed){
-		return COLORS.primary[Math.floor(seed*COLORS.primary.length)].hex
+		return this.inputs[0].hex
+		// return COLORS.primary[Math.floor(seed*COLORS.primary.length)].hex
 	}
 }
 export class mellowColors{

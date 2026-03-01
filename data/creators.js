@@ -5,6 +5,7 @@ export default [
 		username: "primary_colors",
 		dp_url: "primary_colors.png",
 		type: "background",
+		inputs: ["color"],
 		collaborators: {
 			creators: ["singleWords","shadesOfGrey","mellowColors","repeatWords"],
 			producers: ["sinewaves","noise","squarewaves","bells","ikeda"]

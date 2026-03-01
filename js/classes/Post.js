@@ -14,6 +14,9 @@ export default class Post{
 		this.sidebar = null
 		this.user = user
 		this.isAd = isAd
+		this.statistics = {
+			views: 0
+		}
 		this.render()
 	}
 	events = {
@@ -60,6 +63,15 @@ export default class Post{
 			  	console.log(err)
 			  }
 		}
+	}
+	activate(){
+		this.statistics.startTimestamp = performance.now()
+		this.statistics.view += 1
+	}
+	finish(){
+		this.statistics.endTimestamp = performance.now()
+		this.statistics.viewTime = this.statistics.endTimestamp - this.statistics.startTimestamp
+		this.user.reviewPostViewTime(this)
 	}
 	renderSidebar(){
 		let sidebar = document.createElement("div")

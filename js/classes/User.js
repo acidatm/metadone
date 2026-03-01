@@ -2,10 +2,57 @@ export default class User{
 	constructor(){
 		this.liked = []
 		this.saved = []
+		this.weights = {}
+		this.statistics = {
+			postsViewed: 0,
+			averageViewTime: null
+		}
+		this._resetLocalStorage()
 		this._init()
+	}
+	_setWeightFromInteraction(uid){
+		if(this.weights[uid]){
+			this.weights[uid] = this.weights[uid] + ((1 - this.weights[uid]) / 2)
+		}
+		else{
+			this.weights[uid] = 0.75
+		}
+		console.log(this.weights)
+	}
+	_setWeightFromView(uid,time){
+		let delta = time / this.statistics.averageViewTime
+		delta = delta > 1 ? Math.sqrt(delta) : delta
+		if(this.weights[uid]){
+			this.weights[uid] = this.weights[uid] * delta
+		}
+		else{
+			this.weights[uid] = delta
+		}
+		console.log(this.weights)
+	}
+	reviewPostViewTime(post){
+		if(this.statistics.averageViewTime == null){
+			this.statistics.postsViewed = 1
+			this.statistics.averageViewTime = post.statistics.viewTime
+		}
+		else{
+			this.statistics.postsViewed += 1
+			this.statistics.averageViewTime = ((this.statistics.averageViewTime * (this.statistics.postsViewed -1)) + post.statistics.viewTime) / this.statistics.postsViewed
+		}
+		for(let c of post.content.creators){
+			for(let input of c.inputs){
+				this._setWeightFromView(input.uid,post.statistics.viewTime)
+			}
+		}
+		// console.log({post:this.statistics.postsViewed,time:post.statistics.viewTime,avg:this.statistics.averageViewTime})
 	}
 	like(post){
 		this.liked.push(post.content)
+		for(let c of post.content.creators){
+			for(let input of c.inputs){
+				this._setWeightFromInteraction(input.uid)
+			}
+		}
 		this._save()
 	}
 	unlike(post){

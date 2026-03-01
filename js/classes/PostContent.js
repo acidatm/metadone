@@ -32,7 +32,7 @@ export default class PostContent{
 					cocreators[k] = new HTML_GENERATORS[c.cocreator[k].uid]({seed:this.seed,list:this.topic,language:this.language})
 				}
 			}
-			this.html.push(new HTML_GENERATORS[c.uid]({seed:this.seed,list:this.topic,language:this.language},cocreators).html)
+			this.html.push(new HTML_GENERATORS[c.uid]({inputs:c.inputs,list:this.topic,language:this.language},cocreators).html)
 		}
 	}
 	generateSound(){
