@@ -8,12 +8,16 @@ import liked_svg from "/res/images/js_svg/liked.js"
 export default class Post{
 	constructor(root,id,content,user,isAd){
 		this.node = root
+		this.canvas = null
+		this.gl = null
 		this.id = id
 		this.content = content
 		this.sound = null
 		this.sidebar = null
 		this.user = user
 		this.isAd = isAd
+		this.seed = Math.random()
+
 		this.statistics = {
 			views: 0
 		}
@@ -64,14 +68,68 @@ export default class Post{
 			  }
 		}
 	}
+	preload(){
+		return
+	}
+	renderAnimation(){
+		if(this.running){
+			this.renderWebGL()
+			requestAnimationFrame(this.renderAnimation.bind(this))
+		}
+		
+	}
+	start(){
+		this.running = true
+		if(this.canvas){
+			requestAnimationFrame(this.renderAnimation.bind(this))
+		}
+		
+	}
+	stop(){
+		this.running = false
+	}
+	initWebGL(){
+		if(this.canvas){
+			let id = "fs_" + this.id
+			let s = document.createElement("script")
+			s.id = id
+			s.type = "notjs"
+			s.innerHTML = "precision mediump float;uniform vec2 resolution;uniform float time;uniform float seed;uniform float random;void main() {" + this.content.shader + "}"
+			this.node.appendChild(s)
+			this.gl = this.canvas.getContext("webgl")
+			this.programInfo = twgl.createProgramInfo(this.gl, ["vs", id]);
+			const arrays = {
+		    	position: [-1, -1, 0, 1, -1, 0, -1, 1, 0, -1, 1, 0, 1, -1, 0, 1, 1, 0],
+		  	}
+		  	this.bufferInfo = twgl.createBufferInfoFromArrays(this.gl, arrays)
+		  	this.gl.useProgram(this.programInfo.program);
+			this.renderWebGL()
+		}
+	}
+	renderWebGL(){
+		twgl.resizeCanvasToDisplaySize(this.gl.canvas);
+		this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
+		const uniforms = {
+		    time: performance.now() * 0.001,
+		    seed: this.seed,
+		    random: Math.random(),
+		    resolution: [this.gl.canvas.width, this.gl.canvas.height],
+		}
+		twgl.setBuffersAndAttributes(this.gl, this.programInfo, this.bufferInfo);
+		twgl.setUniforms(this.programInfo, uniforms);
+		twgl.drawBufferInfo(this.gl, this.bufferInfo);
+	}
 	activate(){
 		this.statistics.startTimestamp = performance.now()
 		this.statistics.view += 1
+		this.start()
+		// this.preload()
 	}
 	finish(){
 		this.statistics.endTimestamp = performance.now()
 		this.statistics.viewTime = this.statistics.endTimestamp - this.statistics.startTimestamp
 		this.user.reviewPostViewTime(this)
+		this.stop()
 	}
 	renderSidebar(){
 		let sidebar = document.createElement("div")
@@ -140,9 +198,10 @@ export default class Post{
 			}
 		}
 		for(let b of backgrounds){
-			if(backgrounds.length > 1){
-				b.style.opacity = "0.5"
-			}
+			// if(backgrounds.length > 1){
+			// 	b.style.opacity = "0.5"
+			// }
+			this.canvas = b
 			this.node.appendChild(b)
 		}
 		for(let t of texts){
@@ -251,10 +310,9 @@ export default class Post{
 		if(!this.isAd){
 			this.renderSidebar()
 			this.renderContent()
-			this.renderProducers()
-			
+			this.renderProducers()	
 		}
-		this.renderCreators()
+		this.renderCreators()	
 		this.node.classList.add("post")
 	}
 }

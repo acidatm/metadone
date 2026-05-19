@@ -1,6 +1,7 @@
 import * as HTML_GENERATORS from "/js/generators/htmlGenerators.js"
 import * as AUDIO_GENERATORS from "/js/generators/audioGenerators.js"
 import * as CAPTION_GENERATORS from "/js/generators/captionGenerators.js"
+import SHADER from "/js/generators/shaderGenerator.js"
 import {languages as LANGUAGES} from "/data/lists/words.js"
 
 export default class PostContent{
@@ -12,6 +13,7 @@ export default class PostContent{
 		this.html = []
 		this.sound = []
 		this.captions = []
+		this.shader = ""
 
 		this.language = LANGUAGES[Math.floor(Math.random() * LANGUAGES.length)]
 		this.topic = "soft"
@@ -23,6 +25,11 @@ export default class PostContent{
 		this.generateHTML()
 		this.generateSound()
 		this.generateCaption()
+		this.generateShader()
+	}
+	generateShader(){
+		let shader = new SHADER()
+		this.shader = shader.shader
 	}
 	generateHTML(){
 		for(let c of this.creators){

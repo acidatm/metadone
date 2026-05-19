@@ -90,6 +90,7 @@ export default class Feed{
 		let post = new Post(li,id,content,this.USER)
 		this.posts.push(post)
 		this.node.appendChild(li)
+		post.initWebGL()
 	}
 	insertAd(){
 		if(this.AD.parentNode){

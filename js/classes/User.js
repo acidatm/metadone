@@ -39,11 +39,11 @@ export default class User{
 			this.statistics.postsViewed += 1
 			this.statistics.averageViewTime = ((this.statistics.averageViewTime * (this.statistics.postsViewed -1)) + post.statistics.viewTime) / this.statistics.postsViewed
 		}
-		for(let c of post.content.creators){
-			for(let input of c.inputs){
-				this._setWeightFromView(input.uid,post.statistics.viewTime)
-			}
-		}
+		// for(let c of post.content.creators){
+		// 	for(let input of c.inputs){
+		// 		this._setWeightFromView(input.uid,post.statistics.viewTime)
+		// 	}
+		// }
 		// console.log({post:this.statistics.postsViewed,time:post.statistics.viewTime,avg:this.statistics.averageViewTime})
 	}
 	like(post){

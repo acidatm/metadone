@@ -44,13 +44,20 @@ export default class AlmightyAlgorithm{
 						}
 					}
 				}
-
 		}
 
 		return list
 	}
 	_selectCreator(history,user){ //determine the next creator based on history and user preferences
-		return "primaryColors"
+		if(history.length == 0){
+			return "visualPost"
+		}
+		else if(history[history.length - 1].content.creators[0].uid == "visualPost"){
+			return "textPost"
+		}
+		else{
+			return "visualPost"
+		}
 	}
 	_setList(history,user,list){
 		let l = null
@@ -127,9 +134,9 @@ export default class AlmightyAlgorithm{
 			}
 		}
 		
-		for(let c of creators){
-			c.inputs = this._setInputs(history,this.USER,c)
-		}
+		// for(let c of creators){
+		// 	c.inputs = this._setInputs(history,this.USER,c)
+		// }
 
 		let content = new PostContent(creators,producers,this.AUDIO)
 		
