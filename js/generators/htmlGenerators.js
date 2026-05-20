@@ -54,14 +54,14 @@ export class textPost{
 		let div = document.createElement("div")
 		div.classList.add("post_content")
 		let h1 = document.createElement("div")
-		let size = 36 + 12 / word.length
-		h1.style = "font-size:"+size+"px;color:white;line-height:1em;font-family:sans-serif;font-weight:bold;text-transform:uppercase;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)"
+		let size = 36 + (18 / word.length)
+		h1.style = "font-size:"+size+"px;color:white;line-height:1em;font-family:sans-serif;font-weight:400;text-transform:uppercase;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width: 90%;word-break: break-all;text-align: center;"
 		h1.innerText = word
 		div.appendChild(h1)
 		return div
 	}
 	content(seed){
-		let content = WORDS[Math.floor(Math.random() * WORDS.length)]
+		let content = WORDS[Math.floor(seed * WORDS.length)]
 		let def = content.split("/")
 		let word = def[0]
 		return word

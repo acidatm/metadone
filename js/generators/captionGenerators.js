@@ -1,5 +1,5 @@
-import COLORS from "/data/lists/colors.js"
-import WORDS from "/data/lists/words.js"
+import WORDS from "/data/dict/en.js"
+
 
 export class visualPost{
 	constructor(data){
@@ -10,7 +10,7 @@ export class visualPost{
 		return this.content(this.seed) + ""
 	}
 	content(seed){
-		return "visual"
+		return Math.floor(1000000000 * seed)
 	}
 }
 
@@ -22,9 +22,12 @@ export class textPost{
 		this.caption = this.init()
 	}
 	init(){
-		return this.content(this.seed,this.list,this.language)
+		return this.content(this.seed)
 	}
-	content(seed,list,language){
-		return "text"
+	content(seed){
+		let content = WORDS[Math.floor(seed * WORDS.length)]
+		let def = content.split("/")
+		let word = def[0]
+		return word
 	}
 }

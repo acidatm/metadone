@@ -1,19 +1,29 @@
 export default class shaderGenerator{
 	constructor(){
-		this.layersN = Math.floor(1 + Math.random() * 5)
-		this.data = this._generateLayers(this.layersN)
+		// this.layersN = Math.floor(1 + Math.random() * 5)
+		this.parameters = {
+			layersN: 10,
+			frequencyScale: 4,
+			frequencyMax: 100,
+			opacityCutoff: 0.5,
+			offsetMax: 5
+		}
+		let layers = 2 + Math.round((this.parameters.layersN - 2) * Math.random())
+		this.data = this._generateLayers(layers)
 		this.shader = this.generate()
+		
 	}
 	_generateLayers(n){
 		let l = []
 		for(let i = 0; i < n; i++){
 			l.push({
+				index: i,
 				mode: Math.random(),
 				opacity: Math.random(),
 				channels: {
-					r: Math.random(),
-					g: Math.random(),
-					b: Math.random()
+					r: Math.random() * (1/this.parameters.layersN),
+					g: Math.random() * (1/this.parameters.layersN),
+					b: Math.random() * (1/this.parameters.layersN)
 				},
 				oscilator: {
 					shape: Math.random(),
@@ -25,7 +35,23 @@ export default class shaderGenerator{
 		}
 		return l
 	}
-	_createLayer(mode,opacity,channels,oscilator){
+	_createLayer(index,mode,opacity,channels,oscilator){
+		if(index > 1){
+			if(opacity < this.parameters.opacityCutoff){
+				return {
+					r: "",
+					g: "",
+					b: ""
+				}
+			}
+			else{
+				opacity = opacity * (1 / this.parameters.opacityCutoff) - (1 / this.parameters.opacityCutoff * 0.5)
+			}
+		}
+		
+		if(opacity == 1){
+			opacity = "1.0"
+		}
 		let p
 		if(mode < 0.5){ //additive
 			p = "+"
@@ -49,9 +75,26 @@ export default class shaderGenerator{
 	_createOscilator(o){
 		let xR = o.angle
 		let yR = 1 - xR
-		let F = 0.01 + o.frequency * 100
-		let O = -100 + o.offset * 200
-		return "sin(" + F + " * (" + xR + " * X + " + yR + " * Y)) + (T * " + O + ")"
+		let F = 0.01 + Math.pow(o.frequency,this.parameters.frequencyScale) * this.parameters.frequencyMax
+		let O = -this.parameters.offsetMax + o.offset * (this.parameters.offsetMax * 2)
+		let s = ""
+		if(o.shape < 0.2){ // sine
+			s = "SIN("
+		}
+		else if(o.shape < 0.4){ //square
+			s = "SQR("
+		}
+		else if(o.shape < 0.6){ //pulse
+			let pulseWidth = o.shape - 0.4 * 5 // 0-1
+			s = "SQR(" + pulseWidth + ","
+		}
+		else if(o.shape < 0.8){ //triangle
+			s = "TRI("
+		}
+		else{ //noise plasma
+			s = "SIN("
+		}
+		return s + F + " * (" + xR + " * X + " + yR + " * Y)) + (T * " + O + ")"
 	}
 	generate(){
 		let rgb = {
@@ -60,7 +103,7 @@ export default class shaderGenerator{
 			b: ["0.0"]
 		}
 		for(let l of this.data){
-			let layer = this._createLayer(l.mode,l.opacity,l.channels,l.oscilator)
+			let layer = this._createLayer(l.index,l.mode,l.opacity,l.channels,l.oscilator)
 			rgb.r.push(layer.r)
 			rgb.g.push(layer.g)
 			rgb.b.push(layer.b)

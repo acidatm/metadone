@@ -112,7 +112,7 @@ export default class AlmightyAlgorithm{
 		let creatorCollab = Math.round(Math.random()) == 1 ? true : false
 		let producerCollab = Math.round(Math.random()) == 1 ? true : false
 		creatorCollab = false
-		producerCollab = true
+		// producerCollab = true
 
 		if(creators[0].cocreators){
 			creators[0].cocreator = {}

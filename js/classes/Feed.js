@@ -55,12 +55,17 @@ export default class Feed{
 					}
 				}
 				this.activatePost(active)
-
+				this.preloadPost(active+1)
 				if(this.activePost.index + this.buffer.size > this.posts.length){
 					this.generate()
 				}
 			}
 		}.bind(this)
+	}
+	preloadPost(index){
+		if(this.posts[index]){
+			this.posts[index].start()
+		}
 	}
 	activatePost(index){
 		this.activePost.index = index

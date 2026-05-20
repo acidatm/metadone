@@ -76,7 +76,6 @@ export default class Post{
 			this.renderWebGL()
 			requestAnimationFrame(this.renderAnimation.bind(this))
 		}
-		
 	}
 	start(){
 		this.running = true
@@ -94,7 +93,37 @@ export default class Post{
 			let s = document.createElement("script")
 			s.id = id
 			s.type = "notjs"
-			s.innerHTML = "precision mediump float;uniform vec2 resolution;uniform float time;uniform float seed;uniform float random;void main() {" + this.content.shader + "}"
+			// float TRI(in float n){return abs(-1.0+n*2.0)};float SQR(in float n){if(n < 0.5){return 0.0;}else{return 1.0;}};float SQR(in float p, in float n){if(n < p){return 0.0;}else{return 1.0;}};
+			s.innerHTML = `
+				precision mediump float;
+				uniform vec2 resolution;
+				uniform float time;uniform float seed;
+				uniform float random;
+				float SIN(in float n){
+					return sin(n * 3.141592653589793);
+				}
+				float TRI(in float n){
+					return abs(-1.0+n*2.0);
+				}
+				float SQR(in float n){
+					if(n < 0.5){
+						return 0.0;
+					}
+					else{
+						return 1.0;
+					}
+				}
+				float SQR(in float p, in float n){
+					if(n < p){
+						return 0.0;
+					}
+					else{
+						return 1.0;
+					}
+				}
+				void main() {`
+				+ this.content.shader + 
+				"}"
 			this.node.appendChild(s)
 			this.gl = this.canvas.getContext("webgl")
 			this.programInfo = twgl.createProgramInfo(this.gl, ["vs", id]);

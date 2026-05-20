@@ -33,5 +33,10 @@ export default [
 		uid: "noise",
 		name: "Noisy",
 		username: "noisy"
+	},
+	{
+		uid: "notch",
+		name: "Notch",
+		username: "notch"
 	}
 ]

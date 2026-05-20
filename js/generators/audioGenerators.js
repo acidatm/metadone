@@ -57,7 +57,7 @@ export class bells{
 	createGenerator(){
 		let f = this.frequency
 		let gain = this.ctx.createGain()
-		gain.gain.setValueAtTime(0.05, this.ctx.currentTime)
+		gain.gain.setValueAtTime(0.02, this.ctx.currentTime)
 		for(let i = 0; i < 10; i++){
 			f = f * (1+Math.random()*0.5) 
 			let osc = this.ctx.createOscillator()
@@ -79,7 +79,7 @@ export class ikeda{
 		this.lfo2 = this.lfo1 * (1 + Math.random())
 
 		this.generator = this.createGenerator()
-		this.tracktitle = "Test Pattern No. " + Math.floor(this.repeat * 100)
+		this.tracktitle = "Test Pattern No. " + Math.floor(this.lfo1 * 100)
 	}
 	createGenerator(){
 		let osc = this.ctx.createOscillator()
@@ -166,7 +166,7 @@ export class noise{
 		this.frequency = 40 + Math.floor(Math.random() * 4000)
 
 		this.generator = this.createGenerator()
-		this.tracktitle = "noise at " + this.frequency + "hz"
+		this.tracktitle = this.frequency + "hz"
 	}
 	createGenerator(){
 		const bufferSize = 2 * this.ctx.sampleRate
@@ -184,6 +184,41 @@ export class noise{
 		const bandpass = new BiquadFilterNode(this.ctx, {
 		  type: "bandpass",
 		  frequency: this.frequency
+		})
+		whiteNoise.connect(bandpass).connect(gain)
+		return gain
+	}
+}
+
+export class notch{
+	constructor(seed,ctx){
+		this.seed = seed
+		this.ctx = ctx
+		
+
+		this.gain = 0.1 + Math.random() * 0.1
+		this.frequency = 40 + Math.floor(Math.random() * 4000)
+
+		this.generator = this.createGenerator()
+		this.tracktitle = this.frequency + "hz"
+	}
+	createGenerator(){
+		const bufferSize = 2 * this.ctx.sampleRate
+		const noiseBuffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate)
+		const output = noiseBuffer.getChannelData(0)
+		for (let i = 0; i < bufferSize; i++) {
+			output[i] = Math.random() * 2 - 1
+		}
+		const whiteNoise = this.ctx.createBufferSource()
+		whiteNoise.buffer = noiseBuffer
+		whiteNoise.loop = true
+		whiteNoise.start()
+		let gain = this.ctx.createGain()
+		gain.gain.setValueAtTime(this.gain, this.ctx.currentTime)
+		const bandpass = new BiquadFilterNode(this.ctx, {
+		  type: "notch",
+		  frequency: this.frequency,
+		  Q: 0.25
 		})
 		whiteNoise.connect(bandpass).connect(gain)
 		return gain

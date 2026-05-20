@@ -2,25 +2,25 @@ export default [
 	{
 		uid: "visualPost",
 		name: "Primary Colors",
-		username: "primary_colors",
+		username: "visualnoise",
 		dp_url: "primary_colors.png",
 		type: "background",
 		inputs: [],
 		collaborators: {
 			creators: [],
-			producers: ["noise","ikeda"]
+			producers: ["noise","notch","ikeda","sinewaves","squarewaves","bells"	]
 		}
 		
 	},
 	{
 		uid: "textPost",
 		name: "Big Words",
-		username: "wordsonscreen",
-		dp_url: "words.png",
+		username: "keywords",
+		dp_url: "shades_of_grey.png",
 		type: "text",
 		collaborators: {
 			creators: [],
-			producers: ["sinewaves","discord","squarewaves","bells"]
+			producers: ["noise","notch","ikeda","sinewaves","squarewaves","bells"]
 		}
 	}
 ]
