@@ -89,64 +89,69 @@ export default class Post{
 	}
 	initWebGL(){
 		if(this.canvas){
-			let id = "fs_" + this.id
-			let s = document.createElement("script")
-			s.id = id
-			s.type = "notjs"
-			// float TRI(in float n){return abs(-1.0+n*2.0)};float SQR(in float n){if(n < 0.5){return 0.0;}else{return 1.0;}};float SQR(in float p, in float n){if(n < p){return 0.0;}else{return 1.0;}};
-			s.innerHTML = `
-				precision mediump float;
-				uniform vec2 resolution;
-				uniform float time;uniform float seed;
-				uniform float random;
-				float SIN(in float n){
-					return sin(n * 3.141592653589793);
-				}
-				float TRI(in float n){
-					return abs(-1.0+n*2.0);
-				}
-				float SQR(in float n){
-					if(n < 0.5){
-						return 0.0;
-					}
-					else{
-						return 1.0;
-					}
-				}
-				float SQR(in float p, in float n){
-					if(n < p){
-						return 0.0;
-					}
-					else{
-						return 1.0;
-					}
-				}
-				void main() {`
-				+ this.content.shader + 
-				"}"
-			this.node.appendChild(s)
 			this.gl = this.canvas.getContext("webgl")
-			this.programInfo = twgl.createProgramInfo(this.gl, ["vs", id]);
-			const arrays = {
-		    	position: [-1, -1, 0, 1, -1, 0, -1, 1, 0, -1, 1, 0, 1, -1, 0, 1, 1, 0],
-		  	}
-		  	this.bufferInfo = twgl.createBufferInfoFromArrays(this.gl, arrays)
-		  	this.gl.useProgram(this.programInfo.program);
-			this.renderWebGL()
+			if(this.gl){
+				let id = "fs_" + this.id
+				let s = document.createElement("script")
+				s.id = id
+				s.type = "notjs"
+				// float TRI(in float n){return abs(-1.0+n*2.0)};float SQR(in float n){if(n < 0.5){return 0.0;}else{return 1.0;}};float SQR(in float p, in float n){if(n < p){return 0.0;}else{return 1.0;}};
+				s.innerHTML = `
+					precision mediump float;
+					uniform vec2 resolution;
+					uniform float time;uniform float seed;
+					uniform float random;
+					float SIN(in float n){
+						return sin(n * 3.141592653589793);
+					}
+					float TRI(in float n){
+						return abs(-1.0+n*2.0);
+					}
+					float SQR(in float n){
+						if(n < 0.5){
+							return 0.0;
+						}
+						else{
+							return 1.0;
+						}
+					}
+					float SQR(in float p, in float n){
+						if(n < p){
+							return 0.0;
+						}
+						else{
+							return 1.0;
+						}
+					}
+					void main() {`
+					+ this.content.shader + 
+					"}"
+				this.node.appendChild(s)
+				
+				this.programInfo = twgl.createProgramInfo(this.gl, ["vs", id]);
+				const arrays = {
+			    	position: [-1, -1, 0, 1, -1, 0, -1, 1, 0, -1, 1, 0, 1, -1, 0, 1, 1, 0],
+			  	}
+			  	this.bufferInfo = twgl.createBufferInfoFromArrays(this.gl, arrays)
+			  	this.gl.useProgram(this.programInfo.program);
+				this.renderWebGL()
+			}
 		}
 	}
 	renderWebGL(){
-		twgl.resizeCanvasToDisplaySize(this.gl.canvas);
-		this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
-		const uniforms = {
-		    time: performance.now() * 0.001,
-		    seed: this.seed,
-		    random: Math.random(),
-		    resolution: [this.gl.canvas.width, this.gl.canvas.height],
+		if(this.gl){
+			twgl.resizeCanvasToDisplaySize(this.gl.canvas);
+			this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
+			const uniforms = {
+			    time: performance.now() * 0.001,
+			    seed: this.seed,
+			    random: Math.random(),
+			    resolution: [this.gl.canvas.width, this.gl.canvas.height],
+			}
+			twgl.setBuffersAndAttributes(this.gl, this.programInfo, this.bufferInfo);
+			twgl.setUniforms(this.programInfo, uniforms);
+			twgl.drawBufferInfo(this.gl, this.bufferInfo);
 		}
-		twgl.setBuffersAndAttributes(this.gl, this.programInfo, this.bufferInfo);
-		twgl.setUniforms(this.programInfo, uniforms);
-		twgl.drawBufferInfo(this.gl, this.bufferInfo);
 	}
 	activate(){
 		this.statistics.startTimestamp = performance.now()
@@ -218,7 +223,7 @@ export default class Post{
 		for(let i = 0; i < this.content.creators.length; i++){
 			let c = this.content.creators[i]
 			switch(c.type){
-				case "background":
+				case "visual":
 					backgrounds.push(this.content.html[i])
 					break
 				case "text":
@@ -227,10 +232,10 @@ export default class Post{
 			}
 		}
 		for(let b of backgrounds){
-			// if(backgrounds.length > 1){
-			// 	b.style.opacity = "0.5"
-			// }
-			this.canvas = b
+			if(b instanceof HTMLCanvasElement){
+				this.canvas = b
+			}
+			
 			this.node.appendChild(b)
 		}
 		for(let t of texts){

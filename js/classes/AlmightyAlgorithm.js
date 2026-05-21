@@ -52,11 +52,11 @@ export default class AlmightyAlgorithm{
 		if(history.length == 0){
 			return "visualPost"
 		}
-		else if(history[history.length - 1].content.creators[0].uid == "visualPost"){
-			return "textPost"
+		else if(history[history.length - 1].content.creators[0].type == "visual"){
+			return ["textPost","textPost","textPost","textPost","textPost","textPostDE","textPostDE","textPostDE","textPostRU","textPostAR"][Math.floor(Math.random() * 10)]
 		}
 		else{
-			return "visualPost"
+			return ["visualPost","visualPost","visualPost","visualPost","visualPost","greyPost","primaryPost","colorPost","colorPost"][Math.floor(Math.random() * 9)]
 		}
 	}
 	_setList(history,user,list){
