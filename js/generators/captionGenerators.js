@@ -57,7 +57,7 @@ export class colorPost{
 	}
 }
 
-export class textPost{
+export class textPostEN{
 	constructor(data){
 		this.seed = data.seed
 		this.list = data.list

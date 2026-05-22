@@ -68,7 +68,7 @@ export class visualPost{
 	content(seed){
 	}
 }
-export class textPost{
+export class textPostEN{
 	constructor(data){
 		this.seed = data.seed
 		this.list = data.list

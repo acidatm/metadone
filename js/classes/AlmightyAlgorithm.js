@@ -53,7 +53,7 @@ export default class AlmightyAlgorithm{
 			return "visualPost"
 		}
 		else if(history[history.length - 1].content.creators[0].type == "visual"){
-			return ["textPost","textPost","textPost","textPost","textPost","textPostDE","textPostDE","textPostDE","textPostRU","textPostAR"][Math.floor(Math.random() * 10)]
+			return ["textPostEN","textPostEN","textPostEN","textPostEN","textPostEN","textPostDE","textPostDE","textPostDE","textPostRU","textPostAR"][Math.floor(Math.random() * 10)]
 		}
 		else{
 			return ["visualPost","visualPost","visualPost","visualPost","visualPost","greyPost","primaryPost","colorPost","colorPost"][Math.floor(Math.random() * 9)]

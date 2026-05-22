@@ -52,10 +52,10 @@ export default [
 		
 	},
 	{
-		uid: "textPost",
-		name: "Big Words",
-		username: "keywords",
-		dp_url: "words.png",
+		uid: "textPostEN",
+		name: "Oxford",
+		username: "oxford",
+		dp_url: "oxford.png",
 		type: "text",
 		collaborators: {
 			creators: [],
@@ -75,9 +75,9 @@ export default [
 	},
 	{
 		uid: "textPostAR",
-		name: "Habibi",
-		username: "habibi",
-		dp_url: "habibi.png",
+		name: "Al-Mu'jam al-Waseet",
+		username: "almujam_alwaseet",
+		dp_url: "arab.png",
 		type: "text",
 		collaborators: {
 			creators: [],
@@ -86,8 +86,8 @@ export default [
 	},
 	{
 		uid: "textPostRU",
-		name: "Russian",
-		username: "russian",
+		name: "Russkiy Orfograficheskiy Slovar",
+		username: "russkiy_orfograficheskiy_slovar",
 		dp_url: "ru.png",
 		type: "text",
 		collaborators: {
