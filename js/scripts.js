@@ -30,7 +30,6 @@ function init(){
 	// APP = new App(MAIN,FEED)
 
 	resize()
-	startTutorial()
 	// FEED.generate()
 	
 }	

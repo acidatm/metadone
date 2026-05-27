@@ -21,7 +21,7 @@
 }
 #enable .logo{
 	position: absolute;
-	left: calc(50% - 16px);
+	left: calc(50% - 24px);
 	top: 64px;
 	width: 48px;
 	height: auto;

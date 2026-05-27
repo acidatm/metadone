@@ -53,10 +53,10 @@ export default class AlmightyAlgorithm{
 			return "visualPost"
 		}
 		else if(history[history.length - 1].content.creators[0].type == "visual"){
-			return ["textPostEN","textPostEN","textPostEN","textPostEN","textPostEN","textPostDE","textPostDE","textPostDE","textPostRU","textPostAR"][Math.floor(Math.random() * 10)]
+			return ["textPostEN","textPostEN","textPostEN","textPostDE","textPostDE","textPostDE","textPostDE","textPostDE","textPostRU","textPostAR"][Math.floor(Math.random() * 10)]
 		}
 		else{
-			return ["visualPost","visualPost","visualPost","visualPost","visualPost","greyPost","primaryPost","colorPost","colorPost"][Math.floor(Math.random() * 9)]
+			return ["visualPost","visualPost","visualPost","visualPost","visualPost","greyPost","primaryPost","visualPost","colorPost"][Math.floor(Math.random() * 9)]
 		}
 	}
 	_setList(history,user,list){
