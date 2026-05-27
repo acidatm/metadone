@@ -11,6 +11,8 @@ let AUDIO
 let FEED
 const enable = document.getElementById("enable")
 
+let ul
+
 enable.addEventListener("mousedown",init)
 		
 
@@ -20,7 +22,7 @@ function init(){
 	const USER = new User()
 	const AA = new AlmightyAlgorithm(USER,null,AUDIO)
 
-	let ul = document.createElement("ul")
+	ul = document.createElement("ul")
 	ul.id = "feed"
 	MAIN.appendChild(ul)
 
@@ -28,11 +30,11 @@ function init(){
 	// APP = new App(MAIN,FEED)
 
 	resize()
+	startTutorial()
 	// FEED.generate()
 	
 }	
 function resize(){
 	FEED.height = FEED.node.getBoundingClientRect().height
 }	
-
 // window.addEventListener("DOMContentLoaded",init)

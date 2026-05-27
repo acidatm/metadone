@@ -40,6 +40,7 @@ export default class Feed{
 	}
 	events = {
 		scrollend: function(e){
+			document.body.classList.remove("unscrolled")
 			if(Math.abs(this.node.scrollTop - this._lastScrollPosition) > 10){
 				this._lastScrollPosition = this.node.scrollTop
 				let active = Math.floor((this.node.scrollTop + 0.5 * this.height) / this.height)
