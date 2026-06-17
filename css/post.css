@@ -144,6 +144,17 @@
 	z-index: 999;
 	background: linear-gradient(to top,rgba(0,0,0,0.2),rgba(0,0,0,0.05),rgba(0,0,0,0));
 }
+.post--rothko{
+	animation: rothko 10s infinite ease-in-out;
+}
+@keyframes rothko{
+		0%,100%{
+			transform: scale(1.0);
+		}
+		50%{
+			transform: scale(1.05);
+		}
+	}
 @keyframes scrollby{
 		0%{
 			left: 0;

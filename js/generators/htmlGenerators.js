@@ -49,7 +49,59 @@ export class colorPost{
 	content(seed){
 		return '#'+(seed*0xFFFFFF<<0).toString(16);
 	}
+
 }
+export class gradientPost{
+	constructor(data){
+		this.seed = data.seed
+		this.inputs = data.inputs
+		this.html = this.init()
+	}
+	init(){
+		let div = document.createElement("div")
+		div.classList.add("post_content")
+		div.style.background = this.content(this.seed)
+		return div
+	}
+	content(seed){
+		let cA = '#'+(seed*0xFFFFFF<<0).toString(16)
+		let cB = '#'+(Math.abs(Math.sin(seed*10000))*0xFFFFFF<<0).toString(16)
+		if(Math.sin(seed*10000) < 0){
+			return "linear-gradient(to top," + cA + "," + cB + ")"
+		}
+		else{
+			return "radial-gradient(circle," + cA + " 0%, " + cB + " 100%)"
+		}
+	}
+}
+
+export class splitPost{
+	constructor(data){
+		this.seed = data.seed
+		this.inputs = data.inputs
+		this.html = this.init()
+	}
+	init(){
+		let div = document.createElement("div")
+		div.classList.add("post_content")
+		div.classList.add("post--rothko")
+		div.style = this.content(this.seed)
+		return div
+	}
+	content(seed){
+		let cA = '#'+(seed*0xFFFFFF<<0).toString(16).padStart(6, "0")
+		let cB = '#'+(Math.abs(Math.sin(seed*60748))*0xFFFFFF<<0).toString(16).padStart(6, "0")
+		let cC = '#'+(Math.abs(Math.sin(seed*34659))*0xFFFFFF<<0).toString(16).padStart(6, "0")
+		let _s1 = Math.round(Math.abs(Math.sin(seed*74297))*100)
+		let _s2 = Math.round(Math.abs(Math.sin(seed*53975))*100)
+		let s1 = Math.min(_s1,_s2)
+		let s2 = Math.max(_s1,_s2)
+		let b = Math.round(2 + 20 * Math.abs(Math.sin(seed*96475)))
+		return "filter: blur("+ b + "px); background: linear-gradient(0deg," + cA + " " + s1 + "%," + cB + " " + s1 + "%," + cB + " " + s2 + "%," + cC + " " + s2 + "%);"
+		// linear-gradient(0deg,#f0f 50%,#000fff 50%, #000fff 75%, aliceblue 75%)
+	}
+}
+
 export class visualPost{
 	constructor(data){
 		this.seed = data.seed
@@ -74,7 +126,7 @@ class textPost{
 	init(){
 		let word = this.content(this.seed,this.dict)
 		let div = document.createElement("div")
-		div.classList.add("post_content")
+		div.classList.add(...this._classes())
 		let h1 = document.createElement("div")
 		let size = this._fontsize(word)
 		h1.style = this._style(size)
@@ -85,6 +137,9 @@ class textPost{
 	_fontsize(word){
 		return 6
 	}
+	_classes(){
+		return ["post_content"]
+	}
 	_style(size){
 		return "font-size:"+size+"px;color:white;line-height:1em;font-family:sans-serif;font-weight:400;text-transform:uppercase;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width: 90%;word-break: break-all;text-align: center;"
 	}
@@ -93,6 +148,68 @@ class textPost{
 		let def = content.split("/")
 		let word = def[0]
 		return word
+	}
+}
+export class emojiPost extends textPost{
+	constructor(data){
+		super(data)
+	}
+	_classes(){
+		return ["post_content","post--emoji"]
+	}
+	_fontsize(word){
+		return 200
+	}
+	content(seed){
+		return DICT["emojis"][Math.floor(seed * DICT["emojis"].length)][2]
+	}
+}
+export class datePost extends textPost{
+	constructor(data){
+		super(data)
+	}
+	_fontsize(word){
+		return 48
+	}
+	content(seed){
+		let d = new Date().getTime()
+		let r = new Date(Math.floor(seed * d))
+		return String(r.getDate()).padStart(2,"0") + "." + String(r.getMonth()).padStart(2,"0") + "." + String(r.getFullYear())
+	}
+}
+export class futurePost extends textPost{
+	constructor(data){
+		super(data)
+	}
+	_fontsize(word){
+		return 48
+	}
+	content(seed){
+		let d = new Date().getTime()
+		let r = new Date(d + Math.floor(seed * 2522880000000))
+		return String(r.getDate()).padStart(2,"0") + "." + String(r.getMonth()).padStart(2,"0") + "." + String(r.getFullYear())
+	}
+}
+export class numberPost extends textPost{
+	constructor(data){
+		super(data)
+	}
+	_fontsize(word){
+		console.log(word.length)
+		return 50 + (200 / word.length)
+	}
+	content(seed){
+		let n
+		if(seed < 0.5){
+			n = Math.floor((seed * 2) * 99)
+		}
+		else if(seed < 0.75){
+			n = Math.floor(((seed - 0.5) * 4) * 999)
+		}
+		else{
+			n = Math.floor(((seed - 0.75) * 4) * 999999)
+		}
+		return ("" + n).replace(/\B(?=(\d{3})+(?!\d))/g, ".")
 	}
 }
 export class textPostEN extends textPost{
@@ -108,7 +225,7 @@ export class textPostDE extends textPost{
 		super(data)
 	}
 	_fontsize(word){
-		return 24 + (24 / word.length)
+		return 16 + (32 / word.length)
 	}
 }
 export class textPostAR extends textPost{
@@ -151,7 +268,7 @@ export class textPostUK extends textPost{
 		super(data)
 	}
 	_fontsize(word){
-		return 30 + (18 / word.length)
+		return 24 + (24 / word.length)
 	}
 }
 export class textPostHE extends textPost{
@@ -170,7 +287,7 @@ export class textPostFR extends textPost{
 		super(data)
 	}
 	_fontsize(word){
-		return 36 + (18 / word.length)
+		return 24 + (24 / word.length)
 	}
 }
 export class textPostES extends textPost{

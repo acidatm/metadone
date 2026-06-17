@@ -46,6 +46,13 @@ body,html{
 	scroll-snap-stop: always;
 	position: relative;
 	background: black;
+	overflow: hidden;
+}
+.post--emoji{
+	background: black;
+}
+.post--emoji div{
+	filter: grayscale(100%) contrast(2000000%);
 }
 #feed .post_ad-inner{
 	font-family: sans-serif;

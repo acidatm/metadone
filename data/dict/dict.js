@@ -8,6 +8,7 @@ import ES from "/data/dict/es/es.js"
 import FR from "/data/dict/fr/fr.js"
 import HE from "/data/dict/he/he.js"
 import UK from "/data/dict/uk/uk.js"
+import EMOJIS from "/data/dict/emojis/emojis.js"
 
 export default {
 	textPostEN: EN,
@@ -20,4 +21,5 @@ export default {
 	textPostFR: FR,
 	textPostHE: HE,
 	textPostUK: UK,
+	emojis: EMOJIS
 }

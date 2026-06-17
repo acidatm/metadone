@@ -287,7 +287,8 @@ export default class Post{
 			}
 		}
 		if(this.content.creators.length == 1){
-			desc.innerText = this.content.captions[0].toLowerCase()
+			// desc.innerText = this.content.captions[0].toLowerCase()
+			desc.innerText = this.content.captions[0]
 		}
 		else{
 			let d = ""

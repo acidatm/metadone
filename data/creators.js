@@ -52,6 +52,32 @@ export default [
 		
 	},
 	{
+		uid: "gradientPost",
+		name: "Gradients",
+		username: "gradients",
+		dp_url: "nothing.png",
+		type: "visual",
+		inputs: [],
+		collaborators: {
+			creators: [],
+			producers: ["noise","notch","ikeda","sinewaves","squarewaves","bells"	]
+		}
+		
+	},
+	{
+		uid: "splitPost",
+		name: "Rothko",
+		username: "wish_rothko",
+		dp_url: "rothko.png",
+		type: "visual",
+		inputs: [],
+		collaborators: {
+			creators: [],
+			producers: ["noise","notch","ikeda","sinewaves","squarewaves","bells"	]
+		}
+		
+	},
+	{
 		uid: "textPostEN",
 		name: "Oxford",
 		username: "oxford",
@@ -155,6 +181,50 @@ export default [
 		name: "Rav-Milim",
 		username: "rav_milim",
 		dp_url: "he.png",
+		type: "text",
+		collaborators: {
+			creators: [],
+			producers: ["noise","notch","ikeda","sinewaves","squarewaves","bells"]
+		}
+	},
+	{
+		uid: "numberPost",
+		name: "Numbers",
+		username: "numbers",
+		dp_url: "numbers.png",
+		type: "text",
+		collaborators: {
+			creators: [],
+			producers: ["noise","notch","ikeda","sinewaves","squarewaves","bells"]
+		}
+	},
+	{
+		uid: "datePost",
+		name: "Random History",
+		username: "history_channel",
+		dp_url: "history.png",
+		type: "text",
+		collaborators: {
+			creators: [],
+			producers: ["noise","notch","ikeda","sinewaves","squarewaves","bells"]
+		}
+	},
+	{
+		uid: "futurePost",
+		name: "Random Future",
+		username: "timemachine",
+		dp_url: "timemachine.png",
+		type: "text",
+		collaborators: {
+			creators: [],
+			producers: ["noise","notch","ikeda","sinewaves","squarewaves","bells"]
+		}
+	},
+	{
+		uid: "emojiPost",
+		name: "Random Emojis",
+		username: "random_emotions",
+		dp_url: "nothing.png",
 		type: "text",
 		collaborators: {
 			creators: [],
