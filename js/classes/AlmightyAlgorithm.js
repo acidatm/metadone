@@ -53,7 +53,7 @@ export default class AlmightyAlgorithm{
 			return "visualPost"
 		}
 		else if(history[history.length - 1].content.creators[0].type == "visual"){
-			return ["textPostEN","textPostEN","textPostEN","textPostDE","textPostDE","textPostDE","textPostDE","textPostDE","textPostRU","textPostAR"][Math.floor(Math.random() * 10)]
+			return ["textPostEN","textPostDE","textPostRU","textPostAR","textPostZH","textPostHI","textPostES","textPostFR","textPostHE","textPostUK"][Math.floor(Math.random() * 10)]
 		}
 		else{
 			return ["visualPost","visualPost","visualPost","visualPost","visualPost","greyPost","primaryPost","visualPost","colorPost"][Math.floor(Math.random() * 9)]
@@ -103,8 +103,10 @@ export default class AlmightyAlgorithm{
 		this.ALGORITHM.stepsSinceLastSurprise += 1
 		//DO ALGO STUFF
 		let creator = this._selectCreator(history,this.USER)
+		console.log(creator)
 		let creators = [new ContentCreator(creator)]
 		// let creators = [new ContentCreator(["ad"])]
+		console.log(creators)
 		let producers = [new AudioProducer(creators[0].collaborators.producers)]
 		// let producers = [new AudioProducer(["ikeda"])]
 

@@ -15,9 +15,6 @@ export default class PostContent{
 		this.captions = []
 		this.shader = ""
 
-		this.language = LANGUAGES[Math.floor(Math.random() * LANGUAGES.length)]
-		this.topic = "soft"
-
 		this.seed = (Math.random() * performance.now()) % 1 
 		this.init()
 	}
@@ -36,10 +33,10 @@ export default class PostContent{
 			let cocreators = {}
 			if(c.cocreator){
 				for(let k of Object.keys(c.cocreator)){
-					cocreators[k] = new HTML_GENERATORS[c.cocreator[k].uid]({seed:this.seed,list:this.topic,language:this.language})
+					cocreators[k] = new HTML_GENERATORS[c.cocreator[k].uid]({seed:this.seed,dict:c.cocreator[k].uid})
 				}
 			}
-			this.html.push(new HTML_GENERATORS[c.uid]({inputs:c.inputs,list:this.topic,language:this.language,seed:this.seed},cocreators).html)
+			this.html.push(new HTML_GENERATORS[c.uid]({inputs:c.inputs,seed:this.seed,dict:c.uid},cocreators).html)
 		}
 	}
 	generateSound(){
@@ -55,10 +52,10 @@ export default class PostContent{
 			let cocreators = {}
 			if(c.cocreator){
 				for(let k of Object.keys(c.cocreator)){
-					cocreators[k] = new CAPTION_GENERATORS[c.cocreator[k].uid]({seed:this.seed,list:this.topic,language:this.language})
+					cocreators[k] = new CAPTION_GENERATORS[c.cocreator[k].uid]({seed:this.seed,dict:c.cocreator[k].uid})
 				}
 			}
-			this.captions.push(new CAPTION_GENERATORS[c.uid]({seed:this.seed,list:this.topic,language:this.language},cocreators).caption)
+			this.captions.push(new CAPTION_GENERATORS[c.uid]({seed:this.seed,dict:c.uid},cocreators).caption)
 			if(i < this.creators.length -1){
 				this.captions.push(" on ")
 			}

@@ -94,5 +94,71 @@ export default [
 			creators: [],
 			producers: ["noise","notch","ikeda","sinewaves","squarewaves","bells"]
 		}
+	},
+	{
+		uid: "textPostZH",
+		name: "Xinhua Zidian",
+		username: "xinhua_zidian",
+		dp_url: "zh.png",
+		type: "text",
+		collaborators: {
+			creators: [],
+			producers: ["noise","notch","ikeda","sinewaves","squarewaves","bells"]
+		}
+	},
+	{
+		uid: "textPostHI",
+		name: "Shabdkosh",
+		username: "shabdkosh",
+		dp_url: "hi.png",
+		type: "text",
+		collaborators: {
+			creators: [],
+			producers: ["noise","notch","ikeda","sinewaves","squarewaves","bells"]
+		}
+	},
+	{
+		uid: "textPostES",
+		name: "Diccionario de la lengua española",
+		username: "del",
+		dp_url: "es.png",
+		type: "text",
+		collaborators: {
+			creators: [],
+			producers: ["noise","notch","ikeda","sinewaves","squarewaves","bells"]
+		}
+	},
+	{
+		uid: "textPostFR",
+		name: "Le Petit Larousse",
+		username: "petit_larousse",
+		dp_url: "fr.png",
+		type: "text",
+		collaborators: {
+			creators: [],
+			producers: ["noise","notch","ikeda","sinewaves","squarewaves","bells"]
+		}
+	},
+	{
+		uid: "textPostUK",
+		name: "SUM",
+		username: "sum",
+		dp_url: "es.png",
+		type: "text",
+		collaborators: {
+			creators: [],
+			producers: ["noise","notch","ikeda","sinewaves","squarewaves","bells"]
+		}
+	},
+	{
+		uid: "textPostHE",
+		name: "Rav-Milim",
+		username: "rav_milim",
+		dp_url: "he.png",
+		type: "text",
+		collaborators: {
+			creators: [],
+			producers: ["noise","notch","ikeda","sinewaves","squarewaves","bells"]
+		}
 	}
 ]
