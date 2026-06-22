@@ -1,147 +1,126 @@
 import PostContent from "./PostContent.js"
-import AdContent from "./AdContent.js"
 import ContentCreator from "./ContentCreator.js"
 import AudioProducer from "./AudioProducer.js"
-import COLORS from "/data/lists/colors.js"
+import visualCreators from "/data/visualCreators.js"
+import textCreators from "/data/textCreators.js"
+import {RNG} from "/js/tools/tools.js"
+import env from "/data/env.js"
 
 export default class AlmightyAlgorithm{
 	constructor(user,logic,audio){
 		this.USER = user
 		this.LOGIC = logic
 		this.AUDIO = audio
-		this.ALGORITHM = {
-			historyLength: 20,
-			stepsSinceLastSurprise: 0,
-			surpriseAfter: 20,
-			surpriseShift: 2
-		}
+		this.ALGORITHM = env.AlmightyAlgorithm
 	}
-	requestAd(){
-		return new AdContent(new ContentCreator(["ad"]))
-	}
-	_determineUserPreference(user,list){
-		let entries = []
-		for(let e of list){
-			let data = e.uid
-			let weight = user.weights[data]
-			e.weight = weight != null ? weight : 0.5 //user has no preference yet
-			entries.push(e)
-		}
-		return entries
-	}
-	_weighByHistory(list,history){
-		let values = []
-		let length = Math.min(this.ALGORITHM.historyLength,history.length)
-		for(let i = 0; i < length; i++){ //step back through history max of 20
-				let post = history[history.length-1 - i]
-				for(let c of post.content.creators){
-					for(let input of c.inputs){
-						for(let l of list){
-							if(l.uid == input.uid){
-								l.weight = l.weight * (0.9 + 0.1 * (1/(i+2)))
-								// l.weight = l.weight / i
-							}
-						}
-					}
-				}
-		}
-
-		return list
-	}
-	_selectCreator(history,user){ //determine the next creator based on history and user preferences
+	_selectCreator(history,user,surprise){ //determine the next creator based on history and user preferences
 		if(history.length == 0){
-			return "visualPost"
+			return 0
 		}
-		else if(history[history.length - 1].content.creators[0].type == "visual"){
-			return ["textPostEN","textPostDE","textPostRU","textPostAR","textPostZH","textPostHI","textPostES","textPostFR","textPostHE","textPostUK","numberPost","datePost","futurePost"][Math.floor(Math.random() * 13)]
-		}
-		else{
-			// return "splitPost"
-			return ["splitPost","gradientPost","greyPost","primaryPost","visualPost","colorPost"][Math.floor(Math.random() * 6)]
-		}
-	}
-	_setList(history,user,list){
-		let l = null
-		for(let k of Object.keys(list)){
-			l = k
-		}
-		return l
-	}
-	_setEntry(history,user,list){
-		let userPreferences = this._determineUserPreference(user,list)
-		// userPreference.sort((a,b) => a.weight < b.weight)
-		// console.log({...userPreference[0]})
-		let historyPreferences = this._weighByHistory(userPreferences,history)
-		let randomPreferences = historyPreferences
-		// let randomPreferences = historyPreferences.map((e) => e.weight = e.weight * (1 + Math.random() * 0.1))
-		randomPreferences.sort((a,b) => a.weight < b.weight)
-		let entry = randomPreferences[0]
-		let surprise = Math.pow(Math.random(),this.ALGORITHM.surpriseShift)
-		if(surprise < this.ALGORITHM.stepsSinceLastSurprise / this.ALGORITHM.surpriseAfter){
-			entry = randomPreferences[Math.floor(randomPreferences.length * Math.random())]
-				this.ALGORITHM.stepsSinceLastSurprise = 0
-				console.log("SURPRISE")
-		}
-		// console.log(history.length)
-		// historyPreference.map((i) => console.log({id:i.name,weight:i.weight}))
-		return entry
-	}
-	_setInputs(history,user,creator){
-		let inputs = []
-		for(let i in creator.creator.inputs){
-			let input = creator.creator.inputs[i]
-			switch(input){
-				case "color":
-					let list = this._setList(history,user,COLORS)
-					let color = this._setEntry(history,user,COLORS[list])
-					inputs[i] = color
-					break
+		else if(surprise){
+			if(history.length % 2 == 1){
+				return env.global.visualCreatorBufferCutoff + this.USER.randomTextCreatorIndex
+			}
+			else{
+				return this.USER.randomVisualCreatorIndex
 			}
 		}
-		return inputs
+		else{
+			if(history.length % 2 == 1){
+				return env.global.visualCreatorBufferCutoff + this.USER.trueRandomTextCreatorIndex
+			}
+			else{
+				return this.USER.trueRandomVisualCreatorIndex
+			}
+		}
+	}
+	_selectProducer(history,collaborator,user,surprise){ //determine the next creator based on history and user preferences
+		if(surprise){
+			return env.global.audioProducerBufferCutoff + this.USER.trueRandomAudioProducerIndex
+			// if(!collaborator){ //no collaborator given
+			// 	return env.global.audioProducerBufferCutoff + this.USER.trueRandomAudioProducerIndex
+			// }
+			// else{ //when collaborator is given make sure to not feature with self
+			// 	let p = this.USER.trueRandomAudioProducerIndex
+			// 	let i = 0
+			// 	while(p == (collaborator - env.global.audioProducerBufferCutoff) && i < 100){
+			// 		p = this.USER.trueRndomAudioProducerIndex
+			// 		i++
+			// 	}
+			// 	return env.global.audioProducerBufferCutoff + p
+			// }
+		}
+		else{
+			return env.global.audioProducerBufferCutoff + this.USER.randomAudioProducerIndex
+			// if(!collaborator){ //no collaborator given
+			// 	return env.global.audioProducerBufferCutoff + this.USER.randomAudioProducerIndex
+			// }
+			// else{ //when collaborator is given make sure to not feature with self
+			// 	let p = this.USER.randomAudioProducerIndex
+			// 	let i = 0
+			// 	while(p == (collaborator - env.global.audioProducerBufferCutoff) && i < 100){
+			// 		p = this.USER.randomAudioProducerIndex
+			// 		i++
+			// 	}
+			// 	return env.global.audioProducerBufferCutoff + p
+			// }
+		}
+		
+	}
+	_selectParameters(history,user,creator,surprise){
+		let p = user.parameters[creator.uid]
+		
+		if(surprise){
+			p = p.map(a => RNG.floatToBase36(Math.random()))
+		}
+		else{
+			p = p.map(a => a[Math.floor(Math.random() * a.length)])
+			p = p.map(function(v){
+				let _v = RNG.base36ToFloat(v)
+				_v = Math.max(0.00001,Math.min(_v + ((-1+Math.random()*2) * this.ALGORITHM.mutation),0.99999))
+				_v = RNG.floatToBase36(_v)
+				return _v
+			}.bind(this))
+		}
+		
+		return p
 	}
 	requestContent(history){
 		this.ALGORITHM.stepsSinceLastSurprise += 1
-		//DO ALGO STUFF
-		let creator = this._selectCreator(history,this.USER)
-		console.log(creator)
-		let creators = [new ContentCreator(creator)]
-		// let creators = [new ContentCreator(["ad"])]
-		console.log(creators)
-		let producers = [new AudioProducer(creators[0].collaborators.producers)]
-		// let producers = [new AudioProducer(["ikeda"])]
+		let surpriseChance = Math.random()
+		let SURPRISE = false
+		if((this.ALGORITHM.stepsSinceLastSurprise / this.ALGORITHM.surpriseAfter) > surpriseChance){
+			this.ALGORITHM.stepsSinceLastSurprise = 0
+			console.log("SURPRISE")
+			SURPRISE = true
+		}
 
 
-		let creatorCollab = Math.round(Math.random()) == 1 ? true : false
-		let producerCollab = Math.round(Math.random()) == 1 ? true : false
-		creatorCollab = false
-		// producerCollab = true
+		let creatorIndex = this._selectCreator(history,this.USER,SURPRISE)
+		let producer1Index = this._selectProducer(history,null,this.USER,SURPRISE)
+		let producer2Index = this._selectProducer(history,producer1Index,this.USER,SURPRISE)
 
-		if(creators[0].cocreators){
-			creators[0].cocreator = {}
-			for(let k of Object.keys(creators[0].cocreators)){
-				creators[0].cocreator[k] = new ContentCreator(creators[0].cocreators[k])
+		let creator = this.USER.getCreatorFromIndex(creatorIndex)
+		let producer1 = this.USER.getCreatorFromIndex(producer1Index)
+		let producer2 = this.USER.getCreatorFromIndex(producer2Index)
+
+		let params = {
+			creator: creator,
+			producer1: producer1,
+			producer2: producer2,
+			parameters: {
+				creator: RNG.intToBase36(creatorIndex),
+				producer1: RNG.intToBase36(producer1Index),
+				producer2: RNG.intToBase36(producer2Index),
+				parameters: {}
 			}
 		}
 
-		if(creatorCollab){
-			if(creators[0].collaborators.creators.length > 0){
-				creators.push(new ContentCreator(creators[0].collaborators.creators))
-			}
-		}
-		if(producerCollab){
-			if(creators[0].collaborators.producers.length != 0){
-				let selection = [...creators[0].collaborators.producers]
-				selection.splice(selection.indexOf(producers[0].uid))
-				producers.push(new AudioProducer(selection))
-			}
-		}
-		
-		// for(let c of creators){
-		// 	c.inputs = this._setInputs(history,this.USER,c)
-		// }
+		params.parameters.parameters[creator.uid] = this._selectParameters(history,this.USER,creator,SURPRISE),
+		params.parameters.parameters[producer1.uid] = this._selectParameters(history,this.USER,producer1,SURPRISE),
+		params.parameters.parameters[producer2.uid] = this._selectParameters(history,this.USER,producer2,SURPRISE)
 
-		let content = new PostContent(creators,producers,this.AUDIO)
+		let content = new PostContent(params,this.AUDIO)
 		
 		return content
 	}

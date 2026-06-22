@@ -7,6 +7,8 @@ import liked_svg from "/res/images/js_svg/liked.js"
 
 export default class Post{
 	constructor(root,id,content,user,isAd){
+		this.DEV = false
+
 		this.node = root
 		this.canvas = null
 		this.gl = null
@@ -15,11 +17,14 @@ export default class Post{
 		this.sound = null
 		this.sidebar = null
 		this.user = user
-		this.isAd = isAd
 		this.seed = Math.random()
 
 		this.statistics = {
-			views: 0
+			container: null,
+			views: 0,
+			startTimestamp: 0,
+			endTimestamp: 0,
+			viewTime: 0
 		}
 		this.render()
 	}
@@ -55,8 +60,8 @@ export default class Post{
 			}
 			let url = window.location + dataString
 			const shareData = {
-			  title: "Infinite Doom Scrolling",
-			  text: "I found this beautiful piece of content on infinitedoomscroll",
+			  title: "metad.one",
+			  text: "I found this beautiful piece of content on metad.one",
 			  url: url,
 			}
 			try {
@@ -101,6 +106,9 @@ export default class Post{
 					uniform vec2 resolution;
 					uniform float time;uniform float seed;
 					uniform float random;
+					float clamp(in float n){
+						return mod(abs(sin(n * 3.141592653589793)),1.0);
+					}
 					float SIN(in float n){
 						return sin(n * 3.141592653589793);
 					}
@@ -154,15 +162,21 @@ export default class Post{
 		}
 	}
 	activate(){
-		this.statistics.startTimestamp = performance.now()
-		this.statistics.view += 1
+		if(this.statistics.views == 0){
+			this.statistics.startTimestamp = performance.now()
+		}
+		this.statistics.views = this.statistics.views + 1
+		this._updateStatistics()
 		this.start()
 		// this.preload()
 	}
 	finish(){
-		this.statistics.endTimestamp = performance.now()
-		this.statistics.viewTime = this.statistics.endTimestamp - this.statistics.startTimestamp
-		this.user.reviewPostViewTime(this)
+		if(this.statistics.views == 1){
+			this.statistics.endTimestamp = performance.now()
+			this.statistics.viewTime = this.statistics.endTimestamp - this.statistics.startTimestamp
+			this.user.reviewPostViewTime(this)
+		}
+		this._updateStatistics()
 		this.stop()
 	}
 	renderSidebar(){
@@ -218,37 +232,12 @@ export default class Post{
 		this.node.appendChild(sidebar)
 	}
 	renderContent(){
-		let backgrounds = []
-		let texts = []
-		for(let i = 0; i < this.content.creators.length; i++){
-			let c = this.content.creators[i]
-			switch(c.type){
-				case "visual":
-					backgrounds.push(this.content.html[i])
-					break
-				case "text":
-					texts.push(this.content.html[i])
-					break
+		if(this.content.html[0] instanceof HTMLCanvasElement){
+				this.canvas = this.content.html[0]
 			}
-		}
-		for(let b of backgrounds){
-			if(b instanceof HTMLCanvasElement){
-				this.canvas = b
-			}
-			
-			this.node.appendChild(b)
-		}
-		for(let t of texts){
-			this.node.appendChild(t)
-		}
+		this.node.appendChild(this.content.html[0])
 	}
 	renderCreators(){
-		if(this.content.creators.length > 1){
-			this.node.classList.add("collaborative")
-		}
-
-
-		
 		let username = document.createElement("h2")
 		username.classList.add("post_username")
 		let desc = document.createElement("p")
@@ -259,45 +248,12 @@ export default class Post{
 		let gradient = document.createElement("div")
 		gradient.classList.add("post_gradient")
 
-		if(this.content.creators.length == 1){
-			username.innerText = this.content.creators[0].username
-		}
-		else{
-			let u = ""
-			for(let i = 0; i < this.content.creators.length; i++){
-				let c = this.content.creators[i]
-				u = u + c.username + (i < this.content.creators.length - 1 ? " <span style='font-weight:400'>and</span> " : "")
-			}
-			username.innerHTML = u
-		}
-		if(this.content.creators.length == 1){
-			let dp = document.createElement("img")
-			dp.classList.add("post_profilePicture")
-			dp.src = "./res/images/profile_pictures/" + this.content.creators[0].dp_url
-			this.node.appendChild(dp)
-		}
-		else{
-			for(let i = 0; i < this.content.creators.length; i++){
-				let c = this.content.creators[i]
-				let dp = document.createElement("img")
-				dp.classList.add("post_profilePicture")
-				dp.classList.add("post_profilePicture-collaborator_" + (i+1))
-				dp.src = "./res/images/profile_pictures/" + c.dp_url
-				this.node.appendChild(dp)
-			}
-		}
-		if(this.content.creators.length == 1){
-			// desc.innerText = this.content.captions[0].toLowerCase()
-			desc.innerText = this.content.captions[0]
-		}
-		else{
-			let d = ""
-			for(let i = 0; i < this.content.captions.length; i++){
-				let c = this.content.captions[i]
-				d = d + c + (i < this.content.captions.length - 1 ? "" : "")
-			}
-			desc.innerText = d.toLowerCase()
-		}
+		username.innerText = this.content.creator.username
+		let dp = document.createElement("img")
+		dp.classList.add("post_profilePicture")
+		dp.src = "./res/images/profile_pictures/" + this.content.creator.dp_url
+		this.node.appendChild(dp)
+		desc.innerText = this.content.captions[0]
 		this.node.appendChild(gradient)
 		this.node.appendChild(username)
 		this.node.appendChild(desc)
@@ -316,19 +272,15 @@ export default class Post{
 
 			let text = ""
 			if(this.content.sound.length == 1){
-				text = this.content.producers[0].name + " · " + this.content.sound[0].tracktitle
+				text = this.content.producer1.name + " · " + this.content.sound[0].tracktitle
 			}
 			else{
-				let prods = ""
-				for(let i = 0; i < this.content.producers.length; i++){
-					let prod = this.content.producers[i]
-					prods = prods + (prod.name + (i < (this.content.producers.length-1) ? " feat. " : ""))
+				let prods = this.content.producer1.name + " feat. " + this.content.producer2.name
 
-				}
 				let tracks = ""
 				for(let i = 0; i < this.content.sound.length; i++){
 					let track = this.content.sound[i]
-					tracks = tracks + (track.tracktitle + (i < (this.content.producers.length-1) ? " / " : ""))
+					tracks = tracks + (track.tracktitle + (i < (this.content.sound.length-1) ? " / " : ""))
 
 				}
 				text = prods + " · " + tracks
@@ -342,12 +294,28 @@ export default class Post{
 		}
 	}
 	render(){
-		if(!this.isAd){
-			this.renderSidebar()
-			this.renderContent()
-			this.renderProducers()	
-		}
+		this.renderSidebar()
+		this.renderContent()
+		this.renderProducers()	
 		this.renderCreators()	
+		if(this.DEV){
+			this._renderStatistics()
+		}
 		this.node.classList.add("post")
+	}
+	_renderStatistics(){
+		this.statistics.container = document.createElement("div")
+		this.statistics.container.classList.add("post_stats")
+		this.node.appendChild(this.statistics.container)
+	}
+	_updateStatistics(){
+		if(this.DEV){
+			this.statistics.container.innerHTML = 
+				"POST<br>views: " + this.statistics.views +
+				"<br>start: " + this.statistics.startTimestamp +
+				"<br>end: " + this.statistics.endTimestamp +
+				"<br>viewtime: " + this.statistics.viewTime +
+				"<br><br>USER<br>avgViewtime: " + this.user.statistics.averageViewTime
+		}
 	}
 }

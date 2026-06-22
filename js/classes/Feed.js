@@ -1,5 +1,4 @@
 import Post from "./Post.js"
-import Ad from "./Ad.js"
 
 export default class Feed{
 	constructor(node,algo,audio_ctx,user){
@@ -97,11 +96,5 @@ export default class Feed{
 		this.posts.push(post)
 		this.node.appendChild(li)
 		post.initWebGL()
-	}
-	insertAd(){
-		if(this.AD.parentNode){
-			this.AD.parentNode.removeChild(this.AD)
-		}
-		this.node.appendChild(this.AD)
 	}
 }

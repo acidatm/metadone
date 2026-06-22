@@ -1,5 +1,4 @@
 import CREATORS from "/data/creators.js"
-import ADVERTISERS from "/data/advertisers.js"
 import {uidFromArray} from "/js/tools/tools.js"
 
 export default class ContentCreator{

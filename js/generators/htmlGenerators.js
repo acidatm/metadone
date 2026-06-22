@@ -2,8 +2,7 @@ import DICT from "/data/dict/dict.js"
 
 export class greyPost{
 	constructor(data){
-		this.seed = data.seed
-		this.inputs = data.inputs
+		this.seed = data.inputs[0]
 		this.html = this.init()
 	}
 	init(){
@@ -13,14 +12,13 @@ export class greyPost{
 		return div
 	}
 	content(seed){
-		let shade = 20 + Math.floor(this.seed * 200)
+		let shade = 20 + Math.floor(seed * 200)
 		return "rgb(" + shade + "," + shade + "," + shade + ")" 
 	}
 }
 export class primaryPost{
 	constructor(data){
-		this.seed = data.seed
-		this.inputs = data.inputs
+		this.seed = data.inputs[0]
 		this.html = this.init()
 	}
 	init(){
@@ -36,8 +34,7 @@ export class primaryPost{
 }
 export class colorPost{
 	constructor(data){
-		this.seed = data.seed
-		this.inputs = data.inputs
+		this.seed = data.inputs[0]
 		this.html = this.init()
 	}
 	init(){
@@ -47,26 +44,25 @@ export class colorPost{
 		return div
 	}
 	content(seed){
-		return '#'+(seed*0xFFFFFF<<0).toString(16);
+		return '#'+(seed*0xFFFFFF<<0).toString(16).padStart(6, "f")
 	}
 
 }
 export class gradientPost{
 	constructor(data){
-		this.seed = data.seed
 		this.inputs = data.inputs
 		this.html = this.init()
 	}
 	init(){
 		let div = document.createElement("div")
 		div.classList.add("post_content")
-		div.style.background = this.content(this.seed)
+		div.style.background = this.content(this.inputs)
 		return div
 	}
-	content(seed){
-		let cA = '#'+(seed*0xFFFFFF<<0).toString(16)
-		let cB = '#'+(Math.abs(Math.sin(seed*10000))*0xFFFFFF<<0).toString(16)
-		if(Math.sin(seed*10000) < 0){
+	content(inputs){
+		let cA = '#'+(inputs[0]*0xFFFFFF<<0).toString(16).padStart(6, "f")
+		let cB = '#'+(inputs[1]*0xFFFFFF<<0).toString(16).padStart(6, "f")
+		if(inputs[2] < 0.5){
 			return "linear-gradient(to top," + cA + "," + cB + ")"
 		}
 		else{
@@ -77,7 +73,6 @@ export class gradientPost{
 
 export class splitPost{
 	constructor(data){
-		this.seed = data.seed
 		this.inputs = data.inputs
 		this.html = this.init()
 	}
@@ -85,24 +80,22 @@ export class splitPost{
 		let div = document.createElement("div")
 		div.classList.add("post_content")
 		div.classList.add("post--rothko")
-		div.style = this.content(this.seed)
+		div.style = this.content(this.inputs)
 		return div
 	}
-	content(seed){
-		let cA = '#'+(seed*0xFFFFFF<<0).toString(16).padStart(6, "0")
-		let cB = '#'+(Math.abs(Math.sin(seed*60748))*0xFFFFFF<<0).toString(16).padStart(6, "0")
-		let cC = '#'+(Math.abs(Math.sin(seed*34659))*0xFFFFFF<<0).toString(16).padStart(6, "0")
-		let _s1 = Math.round(Math.abs(Math.sin(seed*74297))*100)
-		let _s2 = Math.round(Math.abs(Math.sin(seed*53975))*100)
+	content(inputs){
+		let cA = '#'+(inputs[0]*0xFFFFFF<<0).toString(16).padStart(6, "f")
+		let cB = '#'+(inputs[1]*0xFFFFFF<<0).toString(16).padStart(6, "f")
+		let cC = '#'+(inputs[2]*0xFFFFFF<<0).toString(16).padStart(6, "f")
+		let _s1 = Math.round(inputs[3]*100)
+		let _s2 = Math.round(inputs[4]*100)
 		let s1 = Math.min(_s1,_s2)
 		let s2 = Math.max(_s1,_s2)
-		let b = Math.round(2 + 20 * Math.abs(Math.sin(seed*96475)))
+		let b = Math.round(2 + 20 * inputs[5])
 		return "filter: blur("+ b + "px); background: linear-gradient(0deg," + cA + " " + s1 + "%," + cB + " " + s1 + "%," + cB + " " + s2 + "%," + cC + " " + s2 + "%);"
-		// linear-gradient(0deg,#f0f 50%,#000fff 50%, #000fff 75%, aliceblue 75%)
 	}
 }
-
-export class visualPost{
+class shaderPost{
 	constructor(data){
 		this.seed = data.seed
 		this.inputs = data.inputs
@@ -111,15 +104,22 @@ export class visualPost{
 	init(){
 		let div = document.createElement("canvas")
 		div.classList.add("post_content")
-		// div.style.background = this.content(this.seed)
 		return div
 	}
-	content(seed){
+}
+export class colorfulVisuals extends shaderPost{
+	constructor(data){
+		super(data)
+	}
+}
+export class movingGradients extends shaderPost{
+	constructor(data){
+		super(data)
 	}
 }
 class textPost{
 	constructor(data){
-		this.seed = data.seed
+		this.seed = data.inputs[0]
 		this.dict = data.dict
 		this.html = this.init()
 	}
@@ -148,20 +148,6 @@ class textPost{
 		let def = content.split("/")
 		let word = def[0]
 		return word
-	}
-}
-export class emojiPost extends textPost{
-	constructor(data){
-		super(data)
-	}
-	_classes(){
-		return ["post_content","post--emoji"]
-	}
-	_fontsize(word){
-		return 200
-	}
-	content(seed){
-		return DICT["emojis"][Math.floor(seed * DICT["emojis"].length)][2]
 	}
 }
 export class datePost extends textPost{
@@ -195,7 +181,6 @@ export class numberPost extends textPost{
 		super(data)
 	}
 	_fontsize(word){
-		console.log(word.length)
 		return 50 + (200 / word.length)
 	}
 	content(seed){
@@ -241,7 +226,7 @@ export class textPostRU extends textPost{
 		super(data)
 	}
 	_fontsize(word){
-		return 30 + (18 / word.length)
+		return 24 + (24 / word.length)
 	}
 }
 export class textPostZH extends textPost{
@@ -249,7 +234,7 @@ export class textPostZH extends textPost{
 		super(data)
 	}
 	_fontsize(word){
-		return 30 + (60 / word.length)
+		return 20 + (70 / word.length)
 	}
 	_style(size){
 		return "font-size:"+size+"px;color:white;line-height:1em;font-family:serif;font-weight:400;text-transform:uppercase;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);writing-mode: vertical-lr;width: auto;word-break: break-all;text-align: center;"

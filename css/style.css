@@ -48,20 +48,6 @@ body,html{
 	background: black;
 	overflow: hidden;
 }
-.post--emoji{
-	background: black;
-}
-.post--emoji div{
-	filter: grayscale(100%) contrast(2000000%);
-}
-#feed .post_ad-inner{
-	font-family: sans-serif;
-	font-size: 14px;
-	color: white;
-	font-weight: 400 !important;
-	box-sizing: border-box;
-	padding: 16px;
-}
 #navigation{
 	position: absolute;
 	bottom: 0;

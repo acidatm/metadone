@@ -42,9 +42,9 @@
 		transform: scale(110%);
 	}
 }
-.unscrolled .post:first-of-type{
+/*.unscrolled .post:first-of-type{
 	animation: suggest 3s infinite ease-in-out;
-}
+}*/
 @keyframes suggest{
 	0%,50%,100%{
 		margin-top: -0px;

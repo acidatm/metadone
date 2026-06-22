@@ -1,23 +1,37 @@
 import DICT from "/data/dict/dict.js"
 import * as HTML_GENERATORS from "/js/generators/htmlGenerators.js"
+import {RNG} from "/js/tools/tools.js"
 
-
-export class visualPost{
+export class colorfulVisuals{
 	constructor(data){
-		this.seed = data.seed
+		this.inputs = data.inputs
 		this.caption = this.init()
 	}
 	init(){
-		return this.content(this.seed) + ""
+		return this.content(this.inputs) + ""
 	}
-	content(seed){
-		return Math.floor(1000000000 * seed)
+	content(inputs){
+		let i = inputs.map(a => RNG.floatToBase36(a))
+		return i.join("")
+	}
+}
+export class movingGradients{
+	constructor(data){
+		this.inputs = data.inputs
+		this.caption = this.init()
+	}
+	init(){
+		return this.content(this.inputs) + ""
+	}
+	content(inputs){
+		let i = inputs.map(a => RNG.floatToBase36(a))
+		return i.join("")
 	}
 }
 
 export class greyPost{
 	constructor(data){
-		this.seed = data.seed
+		this.seed = data.inputs[0]
 		this.caption = this.init()
 	}
 	init(){
@@ -30,7 +44,7 @@ export class greyPost{
 
 export class primaryPost{
 	constructor(data){
-		this.seed = data.seed
+		this.seed = data.inputs[0]
 		this.caption = this.init()
 	}
 	init(){
@@ -44,7 +58,7 @@ export class primaryPost{
 
 export class colorPost{
 	constructor(data){
-		this.seed = data.seed
+		this.seed = data.inputs[0]
 		this.caption = this.init()
 	}
 	init(){
@@ -57,26 +71,26 @@ export class colorPost{
 
 export class gradientPost{
 	constructor(data){
-		this.seed = data.seed
+		this.inputs = data.inputs
 		this.caption = this.init()
 	}
 	init(){
-		return this.content(this.seed) + ""
+		return this.content(this.inputs) + ""
 	}
-	content(seed){
-		let cA = '#'+(seed*0xFFFFFF<<0).toString(16)
-		let cB = '#'+(Math.abs(Math.sin(seed*10000))*0xFFFFFF<<0).toString(16)
+	content(inputs){
+		let cA = '#'+(inputs[0]*0xFFFFFF<<0).toString(16).padStart(6, "f")
+		let cB = '#'+(inputs[1]*0xFFFFFF<<0).toString(16).padStart(6, "f")
 		return "from " + cA + " to " + cB
 	}
 }
 
 export class splitPost{
 	constructor(data){
-		this.seed = data.seed
+		this.inputs = data.inputs
 		this.caption = this.init()
 	}
 	init(){
-		return this.content(this.seed) + ""
+		return this.content(this.inputs[0]) + ""
 	}
 	content(seed){
 		return "No. " + Math.floor(seed *1000000)
@@ -85,7 +99,7 @@ export class splitPost{
 
 class textPost{
 	constructor(data){
-		this.seed = data.seed
+		this.seed = data.inputs[0]
 		this.dict = data.dict
 		this.caption = this.init()
 	}
@@ -112,8 +126,6 @@ export class futurePost extends textPost{
 		super(data)
 	}
 	content(seed){
-		// let g = new HTML_GENERATORS.futurePost({})
-		// return g.content(seed)
 		let d = new Date()
 		let t = d.getTime()
 		let r = new Date(t + Math.floor(seed * 2522880000000))
@@ -126,8 +138,6 @@ export class datePost extends textPost{
 		super(data)
 	}
 	content(seed){
-		// let g = new HTML_GENERATORS.datePost({})
-		// return g.content(seed)
 		let d = new Date()
 		let t = d.getTime()
 		let r = new Date(Math.floor(seed * t))
@@ -140,7 +150,7 @@ export class numberPost extends textPost{
 		super(data)
 	}
 	content(seed){
-		let g = new HTML_GENERATORS.numberPost({})
+		let g = new HTML_GENERATORS.numberPost({inputs:[seed]})
 		return g.content(seed)
 	}
 }

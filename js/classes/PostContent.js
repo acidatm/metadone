@@ -1,13 +1,21 @@
 import * as HTML_GENERATORS from "/js/generators/htmlGenerators.js"
 import * as AUDIO_GENERATORS from "/js/generators/audioGenerators.js"
 import * as CAPTION_GENERATORS from "/js/generators/captionGenerators.js"
-import SHADER from "/js/generators/shaderGenerator.js"
-import {languages as LANGUAGES} from "/data/lists/words.js"
+import * as SHADER_GENERATORS from "/js/generators/shaderGenerators.js"
+import {RNG} from "/js/tools/tools.js"
+import visualCreators from "/data/visualCreators.js"
+import textCreators from "/data/textCreators.js"
+import producers from "/data/producers.js"
+import env from "/data/env.js"
 
 export default class PostContent{
-	constructor(creators,producers,ctx){
-		this.creators = creators
-		this.producers = producers
+	constructor(values,ctx){
+		this.PARAMETERS = values.parameters
+
+		this.creator = values.creator
+		this.producer1 = values.producer1
+		this.producer2 = values.producer2
+
 		this.ctx = ctx
 
 		this.html = []
@@ -16,53 +24,33 @@ export default class PostContent{
 		this.shader = ""
 
 		this.seed = (Math.random() * performance.now()) % 1 
+		
 		this.init()
 	}
 	init(){
-		this.generateHTML()
+		let inputs = this.PARAMETERS.parameters[this.creator.uid].map(v => RNG.base36ToFloat(v))
+		this.generateHTML(inputs)
 		this.generateSound()
-		this.generateCaption()
-		this.generateShader()
+		this.generateCaption(inputs)
+		if(this.creator.shader){
+			this.generateShader(inputs)
+		}
+		
 	}
-	generateShader(){
-		let shader = new SHADER()
+	generateShader(inputs){
+		let shader = new SHADER_GENERATORS[this.creator.uid](inputs)
 		this.shader = shader.shader
 	}
-	generateHTML(){
-		for(let c of this.creators){
-			let cocreators = {}
-			if(c.cocreator){
-				for(let k of Object.keys(c.cocreator)){
-					cocreators[k] = new HTML_GENERATORS[c.cocreator[k].uid]({seed:this.seed,dict:c.cocreator[k].uid})
-				}
-			}
-			this.html.push(new HTML_GENERATORS[c.uid]({inputs:c.inputs,seed:this.seed,dict:c.uid},cocreators).html)
-		}
+	generateHTML(inputs){
+		this.html.push(new HTML_GENERATORS[this.creator.uid]({inputs:inputs,dict:this.creator.uid}).html)	
 	}
 	generateSound(){
-		for(let p of this.producers){
-			if(p.uid){
-				this.sound.push(new AUDIO_GENERATORS[p.uid](this.seed,this.ctx,p))
-			}
-		}
+		let p1 = this.PARAMETERS.parameters[this.producer1.uid].map(v => RNG.base36ToFloat(v))
+		let p2 = this.PARAMETERS.parameters[this.producer2.uid].map(v => RNG.base36ToFloat(v))
+		this.sound.push(new AUDIO_GENERATORS[this.producer1.uid](p1,this.ctx))
+		this.sound.push(new AUDIO_GENERATORS[this.producer2.uid](p2,this.ctx))
 	}
-	generateCaption(){
-		for(let i = 0; i < this.creators.length; i++){
-			let c = this.creators[i]
-			let cocreators = {}
-			if(c.cocreator){
-				for(let k of Object.keys(c.cocreator)){
-					cocreators[k] = new CAPTION_GENERATORS[c.cocreator[k].uid]({seed:this.seed,dict:c.cocreator[k].uid})
-				}
-			}
-			this.captions.push(new CAPTION_GENERATORS[c.uid]({seed:this.seed,dict:c.uid},cocreators).caption)
-			if(i < this.creators.length -1){
-				this.captions.push(" on ")
-			}
-			else{
-				this.captions.push(".")
-			}
-
-		}
-	}
+	generateCaption(inputs){
+		this.captions.push(new CAPTION_GENERATORS[this.creator.uid]({inputs:inputs,dict:this.creator.uid}).caption)
+	}	
 }

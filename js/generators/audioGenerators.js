@@ -1,9 +1,8 @@
 export class sinewaves{
-	constructor(seed,ctx){
-		this.seed = seed
+	constructor(inputs,ctx){
 		this.ctx = ctx
 
-		this.frequency = 60 + Math.floor(Math.random() * 360)
+		this.frequency = 60 + Math.floor(inputs[0] * 360)
 
 		this.generator = this.createGenerator()
 		this.tracktitle = this.frequency + "hz"
@@ -19,12 +18,72 @@ export class sinewaves{
 		return gain
 	}
 }
+
+class MelodicGenerator{
+	constructor(){
+		this.NOTENAMES = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"]
+		this.NOTES = [261.63,277.18,293.66,311.13,329.63,349.23,369.99,392,415.30,440,466.16,493.88]
+		this.OCTAVES = [0.125,0.25,0.5,1,2,4,8]
+		this.TONALITIES = {
+			dur: [4,7],
+			moll: [3,7]
+		}
+	}
+	_transposeNote(note,octave){
+		return this.NOTES[note] * this.OCTAVES[octave-1]
+	}
+	_createChord(note,octave,range,tonality){
+		tonality = tonality || "moll"
+		range = range || 0
+		octave = octave || 4
+		let base = this._transposeNote(note,octave)
+
+		let firstNote = note + this.TONALITIES[tonality][0]
+		let firstOctave = Math.floor(firstNote / 12) + octave + Math.round((range-1)/2)
+		let first = this._transposeNote(firstNote % 12,firstOctave)
+
+		let secondNote = note + this.TONALITIES[tonality][1]
+		let secondOctave = Math.floor(secondNote / 12) + octave + Math.round((range)/2)
+		let second = this._transposeNote(secondNote % 12,secondOctave)
+		return [base,first,second]
+	}
+}
+
+export class harmony extends MelodicGenerator{
+	constructor(inputs,ctx){
+		super(inputs,ctx)
+
+		this.ctx = ctx
+		this.base = Math.floor(inputs[0] * 4 * 12)
+		this.range = Math.floor(inputs[1] * 3)
+		this.note = this.base % 12
+		this.octave = Math.floor(this.base / 12)
+
+		this.generator = this.createGenerator()
+
+		this.tracktitle = "" + this.NOTENAMES[this.note] + this.octave
+	}
+	createGenerator(){
+		let freqs = this._createChord(this.note,this.octave,3)
+		let gain = this.ctx.createGain()
+		gain.gain.setValueAtTime(0.1, this.ctx.currentTime)
+		for(let i = 0; i < 3; i++){
+			let f = freqs[i]
+			let osc = this.ctx.createOscillator()
+			osc.type = "sine";
+			osc.frequency.setValueAtTime(f, this.ctx.currentTime)
+			osc.start()
+			osc.connect(gain)
+		}
+		return gain
+	}
+}
+
 export class discord{
-	constructor(seed,ctx){
-		this.seed = seed
+	constructor(inputs,ctx){
 		this.ctx = ctx
 
-		this.frequency = 60 + Math.floor(Math.random() * 360)
+		this.frequency = 60 + Math.floor(inputs[0] * 360)
 
 		this.generator = this.createGenerator()
 		this.tracktitle = this.frequency + "hz"
@@ -45,11 +104,10 @@ export class discord{
 	}
 }
 export class bells{
-	constructor(seed,ctx){
-		this.seed = seed
+	constructor(inputs,ctx){
 		this.ctx = ctx
 
-		this.frequency = 60 + Math.floor(Math.random() * 360)
+		this.frequency = 60 + Math.floor(inputs[0] * 360)
 
 		this.generator = this.createGenerator()
 		this.tracktitle = this.frequency + "hz"
@@ -70,13 +128,12 @@ export class bells{
 	}
 }
 export class ikeda{
-	constructor(seed,ctx){
-		this.seed = seed
+	constructor(inputs,ctx){
 		this.ctx = ctx
 
-		this.frequency = 60 + Math.floor(Math.random() * 60)
-		this.lfo1 = 0.25 + Math.random() * 1.75
-		this.lfo2 = this.lfo1 * (1 + Math.random())
+		this.frequency = 60 + Math.floor(inputs[0] * 60)
+		this.lfo1 = 0.25 + inputs[1] * 1.75
+		this.lfo2 = this.lfo1 * (1 + inputs[2])
 
 		this.generator = this.createGenerator()
 		this.tracktitle = "Test Pattern No. " + Math.floor(this.lfo1 * 100)
@@ -106,41 +163,11 @@ export class ikeda{
 		return amp
 	}
 }
-// export class modulator{
-// 	constructor(seed,ctx){
-// 		this.seed = seed
-// 		this.ctx = ctx
-
-// 		this.frequency = 240
-// 		this.repeat = 0.5 + Math.random() * 5
-
-// 		this.generator = this.createGenerator()
-// 		this.tracktitle = this.frequency + "hz"
-// 	}
-// 	createGenerator(){
-// 		let osc = this.ctx.createOscillator()
-// 		let lfo = this.ctx.createOscillator()
-// 		let amp = this.ctx.createGain()
-// 		let amt = this.ctx.createGain()
-// 		// amp.gain.setValueAtTime(0.05, this.ctx.currentTime)
-// 		osc.type = "sine"
-// 		osc.frequency.setValueAtTime(this.frequency, this.ctx.currentTime)
-// 		lfo.type = "ramp"
-// 		lfo.frequency.setValueAtTime(this.repeat, this.ctx.currentTime)
-// 		amt.gain.setValueAtTime(1,this.ctx.currentTime)
-// 		lfo.connect(amt).connect(amp.gain)
-// 		osc.connect(amp)
-// 		lfo.start()
-//   		osc.start()
-// 		return amp
-// 	}
-// }
 export class squarewaves{
-	constructor(seed,ctx){
-		this.seed = seed
+	constructor(inputs,ctx){
 		this.ctx = ctx
 
-		this.frequency = 60 + Math.floor(Math.random() * 600)
+		this.frequency = 60 + Math.floor(inputs[0] * 360)
 
 		this.generator = this.createGenerator()
 		this.tracktitle = this.frequency + "hz"
@@ -157,13 +184,12 @@ export class squarewaves{
 	}
 }
 export class noise{
-	constructor(seed,ctx){
-		this.seed = seed
+	constructor(inputs,ctx){
 		this.ctx = ctx
 		
 
-		this.gain = 0.1 + Math.random() * 0.1
-		this.frequency = 40 + Math.floor(Math.random() * 4000)
+		this.gain = 0.1 + inputs[1] * 0.1
+		this.frequency = 40 + Math.floor(inputs[0] * 4000)
 
 		this.generator = this.createGenerator()
 		this.tracktitle = this.frequency + "hz"
@@ -191,13 +217,12 @@ export class noise{
 }
 
 export class notch{
-	constructor(seed,ctx){
-		this.seed = seed
+	constructor(inputs,ctx){
 		this.ctx = ctx
 		
 
-		this.gain = 0.1 + Math.random() * 0.1
-		this.frequency = 40 + Math.floor(Math.random() * 4000)
+		this.gain = 0.1 + inputs[1] * 0.1
+		this.frequency = 40 + Math.floor(inputs[0] * 4000)
 
 		this.generator = this.createGenerator()
 		this.tracktitle = this.frequency + "hz"

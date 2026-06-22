@@ -2,41 +2,54 @@ export default [
 	{
 		uid: "sinewaves",
 		name: "Sinewaves",
-		username: "sinewaves"
+		username: "sinewaves",
+		inputs: 1
 		
 	},
 	{
 		uid: "discord",
 		name: "Discord",
-		username: "discord"
+		username: "discord",
+		inputs: 1
 		
 	},
 	{
 		uid: "bells",
 		name: "Jeff Bells",
-		username: "wishjeff"
+		username: "wishjeff",
+		inputs: 1
 		
 	},
 	{
 		uid: "ikeda",
 		name: "Taobao Ikeda",
-		username: "ryoikeda"
+		username: "ryoikeda",
+		inputs: 3
 		
 	},
 	{
 		uid: "squarewaves",
 		name: "Squarewaves",
-		username: "square"
+		username: "square",
+		inputs: 1
 		
 	},
 	{
 		uid: "noise",
 		name: "Noisy",
-		username: "noisy"
+		username: "noisy",
+		inputs: 2
 	},
 	{
 		uid: "notch",
 		name: "Notch",
-		username: "notch"
+		username: "notch",
+		inputs: 2
+	},
+	{
+		uid: "harmony",
+		name: "Harmony",
+		username: "harmony",
+		inputs: 2
 	}
 ]

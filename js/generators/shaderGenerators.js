@@ -1,35 +1,57 @@
-export default class shaderGenerator{
-	constructor(){
-		// this.layersN = Math.floor(1 + Math.random() * 5)
+
+export class movingGradients{
+	constructor(inputs){
+		this.inputs = inputs.map(a => a >= 1 ? 0.99999 : a <= 0 ? 0.00001 : a) //make sure to have no 1 or 0
+		this.shader = this.generate(this.inputs)
+		
+	}
+	generate(inputs){
+		let S = "float X = gl_FragCoord.x / resolution.x; float Y = gl_FragCoord.y / resolution.y; float T = time*0.5;"
+		S += "vec3 c1 = vec3(" + inputs[0] + "," + inputs[1] + "," + inputs[2] + ");"
+		S += "vec3 c2 = vec3(" + inputs[3] + "," + inputs[4] + "," + inputs[5] + ");"
+		S += "vec3 c3 = vec3(" + inputs[6] + "," + inputs[7] + "," + inputs[8] + ");"
+		S += "vec3 c4 = vec3(" + inputs[9] + "," + inputs[10] + "," + inputs[11] + ");"
+		S += "gl_FragColor = vec4(mix(mix(c1, c2, (Y+clamp(T * " + inputs[12] + ")*" + inputs[13] + ")),  mix(c3, c4, (Y+clamp(T * " + inputs[14] + ")*" + inputs[15] + ")), (X+clamp(T * " + inputs[16] + ")*" + inputs[17] + ")),1.0);"
+		return S
+	}	
+
+}
+//mix(mix(vec3(1.0,1.0,0.0), vec3(0.0,0.0,1.0), Y),  mix(vec3(1.0,0.0,1.0), vec3(0.0,0.0,1.0), Y), X)
+
+export class colorfulVisuals{
+	constructor(inputs){
+		this.inputs = inputs.map(a => a >= 1 ? 0.99999 : a <= 0 ? 0.00001 : a) //make sure to have no 1 or 0
 		this.parameters = {
-			layersN: 10,
+			layersN: 5,
 			frequencyScale: 4,
 			frequencyMax: 100,
 			opacityCutoff: 0.5,
 			offsetMax: 5
 		}
-		let layers = 2 + Math.round((this.parameters.layersN - 2) * Math.random())
-		this.data = this._generateLayers(layers)
+		let layers = 2 + Math.round((this.parameters.layersN - 2) * this.inputs[0])
+		let i = this.inputs
+		i.shift()
+		this.data = this._generateLayers(layers,i)
 		this.shader = this.generate()
 		
 	}
-	_generateLayers(n){
+	_generateLayers(n,inputs){
 		let l = []
 		for(let i = 0; i < n; i++){
 			l.push({
 				index: i,
-				mode: Math.random(),
-				opacity: Math.random(),
+				mode: inputs[i*9+0],
+				opacity: inputs[i*9+1],
 				channels: {
-					r: Math.random() * (1/this.parameters.layersN),
-					g: Math.random() * (1/this.parameters.layersN),
-					b: Math.random() * (1/this.parameters.layersN)
+					r: inputs[i*9+2],
+					g: inputs[i*9+3],
+					b: inputs[i*9+4]
 				},
 				oscilator: {
-					shape: Math.random(),
-					frequency: Math.random(),
-					angle: Math.random(),
-					offset: Math.random()
+					shape: inputs[i*9+5],
+					frequency: inputs[i*9+6],
+					angle: inputs[i*9+7],
+					offset: inputs[i*9+8]
 				}
 			})
 		}

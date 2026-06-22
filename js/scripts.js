@@ -19,7 +19,6 @@ enable.addEventListener("mousedown",init)
 function init(){
 	enable.parentNode.removeChild(enable)
 	AUDIO = new AudioContext()
-	const USER = new User()
 	const AA = new AlmightyAlgorithm(USER,null,AUDIO)
 
 	ul = document.createElement("ul")
