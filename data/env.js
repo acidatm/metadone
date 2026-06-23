@@ -5,7 +5,7 @@ export default {
 	},
 	User: {
 		initialRandomNumbersAmount: 20,
-		initialRandomParametersAmount: 20,
+		initialRandomParametersAmount: 50,
 		negativeViewtimeCutoff: 0.8,
 		positiveViewtimeCutoff: 1.2
 	},
@@ -14,6 +14,6 @@ export default {
 		stepsSinceLastSurprise: 0,
 		surpriseAfter: 30,
 		surpriseShift: 2,
-		mutation: 0.91
+		mutation: 0.01
 	}
 }
