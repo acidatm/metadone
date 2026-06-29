@@ -220,6 +220,9 @@ export class textPostAR extends textPost{
 	_fontsize(word){
 		return 36 + (12 / word.length)
 	}
+	_style(size){
+		return "font-size:"+size+"px;color:white;line-height:1em;font-family:sans-serif;font-weight:400;text-transform:uppercase;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width: auto;word-break: break-all;text-align: center;"
+	}
 }
 export class textPostRU extends textPost{
 	constructor(data){

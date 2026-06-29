@@ -20,7 +20,7 @@ preload.addEventListener("touchstart",init)
 
 setTimeout(function() {
 	preload.classList.add("login")
-}, 1000);
+}, 750);
 		
 
 function init(){
@@ -32,7 +32,7 @@ function init(){
 			preload.classList.add("hidden")
 			setTimeout(function(){
 				preload.parentNode.removeChild(preload)
-			},1500)
+			},1000)
 			AUDIO = new AudioContext()
 			const AA = new AlmightyAlgorithm(USER,null,AUDIO)
 
