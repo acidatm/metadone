@@ -67,7 +67,7 @@ export class harmony extends MelodicGenerator{
 	createGenerator(){
 		let freqs = this._createChord(this.note,this.octave,3)
 		let gain = this.ctx.createGain()
-		gain.gain.setValueAtTime(0.1, this.ctx.currentTime)
+		gain.gain.setValueAtTime(0.07, this.ctx.currentTime)
 		for(let i = 0; i < 3; i++){
 			let f = freqs[i]
 			let osc = this.ctx.createOscillator()

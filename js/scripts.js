@@ -28,25 +28,25 @@ function init(){
 		INIT = true
 		let audio = document.getElementById("preloadAudio")
 		audio.play()
-		preload.classList.add("hidden")
 		setTimeout(function(){
-			preload.parentNode.removeChild(preload)
-		},1500)
-		AUDIO = new AudioContext()
-		const AA = new AlmightyAlgorithm(USER,null,AUDIO)
+			preload.classList.add("hidden")
+			setTimeout(function(){
+				preload.parentNode.removeChild(preload)
+			},1500)
+			AUDIO = new AudioContext()
+			const AA = new AlmightyAlgorithm(USER,null,AUDIO)
 
-		ul = document.createElement("ul")
-		ul.id = "feed"
-		MAIN.appendChild(ul)
+			ul = document.createElement("ul")
+			ul.id = "feed"
+			MAIN.appendChild(ul)
 
-		FEED = new Feed(ul,AA,AUDIO,USER)
-		// APP = new App(MAIN,FEED)
+			FEED = new Feed(ul,AA,AUDIO,USER)
+			// APP = new App(MAIN,FEED)
 
-		resize()
-		// FEED.generate()
+			resize()
+			// FEED.generate()
+		},200)
 	}
-	
-	
 }	
 function resize(){
 	FEED.height = FEED.node.getBoundingClientRect().height
