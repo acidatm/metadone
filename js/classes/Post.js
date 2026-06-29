@@ -28,6 +28,9 @@ export default class Post{
 		}
 		this.render()
 	}
+	likeFromDoubleTap(){
+		this.events.like.bind(this)()
+	}
 	events = {
 		like: function(){
 			this.node.classList.add("liked")

@@ -171,12 +171,11 @@ export default class User{
 	}
 	_rewardPost(post){
 		this._ratePost(post,1)
-		console.log("post rewarded")
+		// console.log("post rewarded")
 	}
 	_punishPost(post){
 		this._ratePost(post,-1)
-		console.log("post punished")
-		console.log(this.chances)
+		// console.log("post punished")
 	}
 	like(post){
 		this.statistics.postsLiked += 1

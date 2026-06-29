@@ -10,7 +10,8 @@ export class sinewaves{
 	createGenerator(){
 		let osc = this.ctx.createOscillator()
 		let gain = this.ctx.createGain()
-		gain.gain.setValueAtTime(0.2, this.ctx.currentTime)
+		let g = 0.1 + ((1 - (this.frequency - 60) / 360) * 0.1)
+		gain.gain.setValueAtTime(g, this.ctx.currentTime)
 		osc.type = "sine";
 		osc.frequency.setValueAtTime(this.frequency, this.ctx.currentTime)
 		osc.start()
@@ -91,7 +92,7 @@ export class discord{
 	createGenerator(){
 		let f = this.frequency
 		let gain = this.ctx.createGain()
-		gain.gain.setValueAtTime(0.1, this.ctx.currentTime)
+		gain.gain.setValueAtTime(0.025, this.ctx.currentTime)
 		for(let i = 0; i < 5; i++){
 			f = f * (1+Math.random()) 
 			let osc = this.ctx.createOscillator()
@@ -175,7 +176,8 @@ export class squarewaves{
 	createGenerator(){
 		let osc = this.ctx.createOscillator()
 		let gain = this.ctx.createGain()
-		gain.gain.setValueAtTime(0.05, this.ctx.currentTime)
+		let g = 0.025 + ((1 - (this.frequency - 60) / 360) * 0.02)
+		gain.gain.setValueAtTime(g, this.ctx.currentTime)
 		osc.type = "square";
 		osc.frequency.setValueAtTime(this.frequency, this.ctx.currentTime)
 		osc.start()

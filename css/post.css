@@ -27,7 +27,7 @@
 	font-size: 13px;
 	line-height: 1em;
 	font-weight: 500;
-	font-family: sans-serif;
+	font-family: "Arial", sans-serif;
 	text-align: center;
 	margin-bottom: 16px;
 	margin-top: 3px;
@@ -68,7 +68,7 @@
 	left: 58px;
 	bottom: 58px;
 	font-size: 14px;
-	font-family: sans-serif;
+	font-family: "Arial", sans-serif;
 	font-weight: bold;
 	margin: 0;
 	padding: 0;
@@ -83,7 +83,7 @@
 	bottom: 16px;
 	left: 16px;
 	font-size: 14px;
-	font-family: sans-serif;
+	font-family: "Arial", sans-serif;
 	font-size: 14px;
 	line-height: 18px;
 	color: white;
@@ -105,7 +105,7 @@
 	left: 16px;
 	font-size: 14px;
 	color: white;
-	font-family: sans-serif;
+	font-family: "Arial", sans-serif;
 	z-index: 1000;
 }
 .post .post_musicIcon{
@@ -119,7 +119,7 @@
 	position: absolute;
 	left: 74px;
 	bottom: 42px;
-	font-family: sans-serif;
+	font-family: "Arial", sans-serif;
 	font-size: 12px;
 	line-height: 1em;
 	color: rgb(168,168,168);

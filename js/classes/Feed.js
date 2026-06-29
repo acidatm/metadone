@@ -1,4 +1,5 @@
 import Post from "./Post.js"
+import env from "/data/env.js"
 
 export default class Feed{
 	constructor(node,algo,audio_ctx,user){
@@ -12,14 +13,17 @@ export default class Feed{
 		this.node = node,
 		this.height = 0,
 		this.posts = [],
-		this. activePost = {
+		this.activePost = {
 			index: -1,
 			ref: null
-		},
-		this.buffer ={
-			size: 5,
-			generate: 10
 		}
+		this.userInteractions = {
+			pointerDown: false,
+			lastPointerTimestamp: performance.now()
+		}
+		this.SETTINGS = env.Feed
+		this.buffer = this.SETTINGS.buffer
+
 
 		this.init()
 	}
@@ -33,11 +37,38 @@ export default class Feed{
 			if(t){clearTimeout(t)}
 			t = setTimeout(f.bind(this), 50)
 		})
-		// this.events.scrollend()
+		this.node.addEventListener("mousedown",this.events.touchStart.bind(this))
+		this.node.addEventListener("touchstart",this.events.touchStart.bind(this))
+		this.node.addEventListener("mouseup",this.events.touchEnd.bind(this))
+		this.node.addEventListener("touchend",this.events.touchEnd.bind(this))
 		this.generate()
 		this.activatePost(0)
 	}
 	events = {
+		touchStart: function(e){
+			this.userInteractions.pointerDown = true
+			let t = performance.now()
+			if(t - this.userInteractions.lastPointerTimestamp < this.SETTINGS.doubleClickTimeWindow){
+				this.events.doubleClick.bind(this)()
+			}
+			this.userInteractions.lastPointerTimestamp = t
+			setTimeout(this.events.checkForHold.bind(this), this.SETTINGS.holdTimeWindow)
+		},
+		checkForHold: function(){
+			if(this.userInteractions.pointerDown){
+				this.userInteractions.pointerHold = true
+				this.node.classList.add("user--hold")
+			}
+		},
+		touchEnd: function(e){
+			this.userInteractions.pointerHold = false
+			this.userInteractions.pointerDown = false
+			this.node.classList.remove("user--hold")
+		},
+		doubleClick: function(){
+			this.userInteractions.lastPointerTimestamp = 0
+			this.likeCurrentPost()
+		},
 		scrollend: function(e){
 			document.body.classList.remove("unscrolled")
 			if(Math.abs(this.node.scrollTop - this._lastScrollPosition) > 10){
@@ -59,8 +90,23 @@ export default class Feed{
 				if(this.activePost.index + this.buffer.size > this.posts.length){
 					this.generate()
 				}
+				// while(this.posts.length > this.SETTINGS.deletePostsPast){
+				// 	this.disableOldestPost()
+				// 	// console.log("deleted oldest post")
+				// }
 			}
 		}.bind(this)
+	}
+	likeCurrentPost(){
+		console.log(this.activePost)
+		this.activePost.ref.likeFromDoubleTap()
+	}
+	disableOldestPost(){
+		// this._disablePost(0)
+	}
+	_disablePost(n){
+		this.posts[n].node.innerHTML = ""
+		this.posts.splice(n, 1)
 	}
 	preloadPost(index){
 		if(this.posts[index]){

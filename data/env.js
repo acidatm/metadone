@@ -15,5 +15,14 @@ export default {
 		surpriseAfter: 30,
 		surpriseShift: 2,
 		mutation: 0.01
+	},
+	Feed: {
+		buffer: {
+			size: 5,
+			generate: 10
+		},
+		deletePostsPast: 20,
+		doubleClickTimeWindow: 500,
+		holdTimeWindow: 300
 	}
 }

@@ -22,26 +22,21 @@
 	<link rel="icon" type="image/png" sizes="32x32" href="/res/images/favicon/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="96x96" href="/res/images/favicon/favicon-96x96.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/res/images/favicon/favicon-16x16.png">
-	<link rel="manifest" href="/res/images/favicon/manifest.json">
-	<meta name="msapplication-TileColor" content="#ffffff">
+	<link rel="manifest" href="/manifest.json">
+	<meta name="msapplication-TileColor" content="#000000">
 	<meta name="msapplication-TileImage" content="/res/images/favicon//ms-icon-144x144.png">
-	<meta name="theme-color" content="#ffffff">
+	<meta name="theme-color" content="#000000">
 </head>
 <body class="unscrolled">
+	<audio id="preloadAudio" src="/res/preload/preload.mp3" type="audio/mpeg" preload="auto"></audio>
 	<main id="main">
-		<!-- <nav id="navigation" class="navigation">
-			<ol class="navigation_list">
-				<li class="navigation_list_item" id="reels"></li>
-				<li class="navigation_list_item" id="saved"></li>
-				<li class="navigation_list_item" id="profile"></li>
-			</ol>
-		</nav> -->
-		<div id="enable"><img class="logo" src="/res/logo/logo.png"><span class="inner">metadone<br><br>best enjoyed with<br>sound enabled<br><br>tap to rot</span><img class="icon" src="/res/images/icons/tap.png"></div>
+		<div id="preload">
+			<img class="logo" src="/res/preload/logo.png">
+			<img class="copyright" src="/res/preload/copyright.png">
+			<span class="logintext">Tap to log in</span>
+			 <img class="icon" src="/res/images/icons/tap.png">
+		</div> 	
 	</main>
-	
-	<!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5472039787833659"
-     crossorigin="anonymous"></script>
-     <script async="async" data-cfasync="false" src="https://pl28816542.effectivegatecpm.com/f93df89f606631407709f4d216ee7f95/invoke.js"></script> -->
      <script src="/js/tools/twgl.js"></script>
      <script id="vs" type="notjs">
 		attribute vec4 position;

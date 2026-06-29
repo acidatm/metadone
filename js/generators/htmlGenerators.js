@@ -141,7 +141,7 @@ class textPost{
 		return ["post_content"]
 	}
 	_style(size){
-		return "font-size:"+size+"px;color:white;line-height:1em;font-family:sans-serif;font-weight:400;text-transform:uppercase;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width: 90%;word-break: break-all;text-align: center;"
+		return "font-size:"+size+"px;color:white;line-height:1em;font-family:'Arial',sans-serif;font-weight:400;text-transform:uppercase;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width: 90%;word-break: break-all;text-align: center;"
 	}
 	content(seed,dict){
 		let content = DICT[dict][Math.floor(seed * DICT[dict].length)]
@@ -202,7 +202,7 @@ export class textPostEN extends textPost{
 		super(data)
 	}
 	_fontsize(word){
-		return 36 + (18 / word.length)
+		return 24 + (24 / word.length)
 	}
 }
 export class textPostDE extends textPost{
@@ -237,7 +237,7 @@ export class textPostZH extends textPost{
 		return 20 + (70 / word.length)
 	}
 	_style(size){
-		return "font-size:"+size+"px;color:white;line-height:1em;font-family:serif;font-weight:400;text-transform:uppercase;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);writing-mode: vertical-lr;width: auto;word-break: break-all;text-align: center;"
+		return "font-size:"+size+"px;color:white;line-height:1em;font-family:'Arial',sans-serif;font-weight:400;text-transform:uppercase;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);writing-mode: vertical-lr;width: auto;word-break: break-all;text-align: center;"
 	}
 }
 export class textPostHI extends textPost{
@@ -264,7 +264,7 @@ export class textPostHE extends textPost{
 		return 36 + (18 / word.length)
 	}
 	_style(size){
-		return "font-size:"+size+"px;color:white;line-height:1em;font-family:sans-serif;font-weight:400;text-transform:uppercase;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);writing-mode: rtl;width: auto;word-break: break-all;text-align: center;"
+		return "font-size:"+size+"px;color:white;line-height:1em;font-family:'Arial',sans-serif;font-weight:400;text-transform:uppercase;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);writing-mode: rtl;width: auto;word-break: break-all;text-align: center;"
 	}
 }
 export class textPostFR extends textPost{
@@ -280,7 +280,7 @@ export class textPostES extends textPost{
 		super(data)
 	}
 	_fontsize(word){
-		return 36 + (18 / word.length)
+		return 24 + (24 / word.length)
 	}
 }
 

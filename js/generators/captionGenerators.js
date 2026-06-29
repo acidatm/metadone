@@ -12,7 +12,7 @@ export class colorfulVisuals{
 	}
 	content(inputs){
 		let i = inputs.map(a => RNG.floatToBase36(a))
-		return i.join("")
+		return i.join("").slice(0,32)
 	}
 }
 export class movingGradients{
@@ -25,7 +25,7 @@ export class movingGradients{
 	}
 	content(inputs){
 		let i = inputs.map(a => RNG.floatToBase36(a))
-		return i.join("")
+		return i.join("").slice(0,32)
 	}
 }
 
@@ -130,7 +130,7 @@ export class futurePost extends textPost{
 		let t = d.getTime()
 		let r = new Date(t + Math.floor(seed * 2522880000000))
 		let j = r.getFullYear() - d.getFullYear()
-		return j < 2 ? "in " + j + " year..." : "in " + j + " years..."
+		return j == 1 ? "in " + j + " year..." : "in " + j + " years..."
 	}
 }
 export class datePost extends textPost{
@@ -142,7 +142,7 @@ export class datePost extends textPost{
 		let t = d.getTime()
 		let r = new Date(Math.floor(seed * t))
 		let j = d.getFullYear() - r.getFullYear()
-		return j < 2 ?  j + " year ago..." : j + " years ago..." 
+		return j == 1 ?  j + " year ago..." : j + " years ago..." 
 	}
 }
 export class numberPost extends textPost{

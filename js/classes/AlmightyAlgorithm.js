@@ -91,7 +91,7 @@ export default class AlmightyAlgorithm{
 		let SURPRISE = false
 		if((this.ALGORITHM.stepsSinceLastSurprise / this.ALGORITHM.surpriseAfter) > surpriseChance){
 			this.ALGORITHM.stepsSinceLastSurprise = 0
-			console.log("SURPRISE")
+			// console.log("SURPRISE")
 			SURPRISE = true
 		}
 

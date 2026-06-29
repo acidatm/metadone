@@ -1,4 +1,11 @@
-
+@font-face {
+  font-family: "Arial";
+  src: url("./arial.ttf");
+  font-weight: 400;
+}
+*{
+	user-select: none !important;
+}
 body,html{
 	background: black;
 	width: 100%;
@@ -47,6 +54,25 @@ body,html{
 	position: relative;
 	background: black;
 	overflow: hidden;
+}
+.post .post_sidebar,
+.post .post_musicIcon,
+.post .post_musicProducer,
+.post .post_profilePicture,
+.post .post_gradient,
+.post .post_username,
+.post .post_description{
+	opacity: 1;
+	transition: opacity 0.2s ease-in-out;
+}
+#feed.user--hold .post.active .post_sidebar,
+#feed.user--hold .post.active .post_musicIcon,
+#feed.user--hold .post.active .post_musicProducer,
+#feed.user--hold .post.active .post_profilePicture,
+#feed.user--hold .post.active .post_gradient,
+#feed.user--hold .post.active .post_username,
+#feed.user--hold .post.active .post_description{
+	opacity: 0;
 }
 #navigation{
 	position: absolute;
