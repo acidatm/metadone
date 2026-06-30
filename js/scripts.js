@@ -48,9 +48,8 @@ function resize(){
 	FEED.height = FEED.node.getBoundingClientRect().height
 }	
 
-// window.addEventListener("DOMContentLoaded",preload)
-preload()
-init()
+window.addEventListener("DOMContentLoaded",preload)
+// preload()
 
 
 

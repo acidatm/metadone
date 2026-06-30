@@ -3,7 +3,7 @@ import PLACEHOLDERS from "/data/dict/placeholders.js"
 
 setTimeout(function() {
   new Dictionary(["en","de","ru","ar","zh","hi","es","fr","he","uk"]).then((d) => DICTIONARY = d)
-}, 1000);
+}, 2000);
 
 let DICTIONARY = {}
 
