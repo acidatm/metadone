@@ -7,11 +7,12 @@ import {RNG} from "/js/tools/tools.js"
 import env from "/data/env.js"
 
 export default class AlmightyAlgorithm{
-	constructor(user,logic,audio){
+	constructor(user,logic,audio,share){
 		this.USER = user
 		this.LOGIC = logic
 		this.AUDIO = audio
 		this.ALGORITHM = env.AlmightyAlgorithm
+		this.SHARE = share
 	}
 	_selectCreator(history,user,surprise){ //determine the next creator based on history and user preferences
 		if(history.length == 0){
@@ -37,33 +38,33 @@ export default class AlmightyAlgorithm{
 	_selectProducer(history,collaborator,user,surprise){ //determine the next creator based on history and user preferences
 		if(surprise){
 			return env.global.audioProducerBufferCutoff + this.USER.trueRandomAudioProducerIndex
-			// if(!collaborator){ //no collaborator given
-			// 	return env.global.audioProducerBufferCutoff + this.USER.trueRandomAudioProducerIndex
-			// }
-			// else{ //when collaborator is given make sure to not feature with self
-			// 	let p = this.USER.trueRandomAudioProducerIndex
-			// 	let i = 0
-			// 	while(p == (collaborator - env.global.audioProducerBufferCutoff) && i < 100){
-			// 		p = this.USER.trueRndomAudioProducerIndex
-			// 		i++
-			// 	}
-			// 	return env.global.audioProducerBufferCutoff + p
-			// }
+			if(!collaborator){ //no collaborator given
+				return env.global.audioProducerBufferCutoff + this.USER.trueRandomAudioProducerIndex
+			}
+			else{ //when collaborator is given make sure to not feature with self
+				let p = this.USER.trueRandomAudioProducerIndex
+				let i = 0
+				while(p == (collaborator - env.global.audioProducerBufferCutoff) && i < 100){
+					p = this.USER.trueRandomAudioProducerIndex
+					i++
+				}
+				return env.global.audioProducerBufferCutoff + p
+			}
 		}
 		else{
 			return env.global.audioProducerBufferCutoff + this.USER.randomAudioProducerIndex
-			// if(!collaborator){ //no collaborator given
-			// 	return env.global.audioProducerBufferCutoff + this.USER.randomAudioProducerIndex
-			// }
-			// else{ //when collaborator is given make sure to not feature with self
-			// 	let p = this.USER.randomAudioProducerIndex
-			// 	let i = 0
-			// 	while(p == (collaborator - env.global.audioProducerBufferCutoff) && i < 100){
-			// 		p = this.USER.randomAudioProducerIndex
-			// 		i++
-			// 	}
-			// 	return env.global.audioProducerBufferCutoff + p
-			// }
+			if(!collaborator){ //no collaborator given
+				return env.global.audioProducerBufferCutoff + this.USER.randomAudioProducerIndex
+			}
+			else{ //when collaborator is given make sure to not feature with self
+				let p = this.USER.randomAudioProducerIndex
+				let i = 0
+				while(p == (collaborator - env.global.audioProducerBufferCutoff) && i < 100){
+					p = this.USER.randomAudioProducerIndex
+					i++
+				}
+				return env.global.audioProducerBufferCutoff + p
+			}
 		}
 		
 	}
@@ -86,41 +87,48 @@ export default class AlmightyAlgorithm{
 		return p
 	}
 	requestContent(history){
-		this.ALGORITHM.stepsSinceLastSurprise += 1
-		let surpriseChance = Math.random()
-		let SURPRISE = false
-		if((this.ALGORITHM.stepsSinceLastSurprise / this.ALGORITHM.surpriseAfter) > surpriseChance){
-			this.ALGORITHM.stepsSinceLastSurprise = 0
-			// console.log("SURPRISE")
-			SURPRISE = true
+		let params
+		if(history.length == 0 && this.SHARE){
+			params = this.SHARE
 		}
-
-
-		let creatorIndex = this._selectCreator(history,this.USER,SURPRISE)
-		let producer1Index = this._selectProducer(history,null,this.USER,SURPRISE)
-		let producer2Index = this._selectProducer(history,producer1Index,this.USER,SURPRISE)
-
-		let creator = this.USER.getCreatorFromIndex(creatorIndex)
-		let producer1 = this.USER.getCreatorFromIndex(producer1Index)
-		let producer2 = this.USER.getCreatorFromIndex(producer2Index)
-
-		let params = {
-			creator: creator,
-			producer1: producer1,
-			producer2: producer2,
-			parameters: {
-				creator: RNG.intToBase36(creatorIndex),
-				producer1: RNG.intToBase36(producer1Index),
-				producer2: RNG.intToBase36(producer2Index),
-				parameters: {}
+		else{
+			this.ALGORITHM.stepsSinceLastSurprise += 1
+			let surpriseChance = Math.random()
+			let SURPRISE = false
+			if((this.ALGORITHM.stepsSinceLastSurprise / this.ALGORITHM.surpriseAfter) > surpriseChance){
+				this.ALGORITHM.stepsSinceLastSurprise = 0
+				// console.log("SURPRISE")
+				SURPRISE = true
 			}
-		}
 
-		params.parameters.parameters[creator.uid] = this._selectParameters(history,this.USER,creator,SURPRISE),
-		params.parameters.parameters[producer1.uid] = this._selectParameters(history,this.USER,producer1,SURPRISE),
-		params.parameters.parameters[producer2.uid] = this._selectParameters(history,this.USER,producer2,SURPRISE)
+
+			let creatorIndex = this._selectCreator(history,this.USER,SURPRISE)
+			let producer1Index = this._selectProducer(history,null,this.USER,SURPRISE)
+			let producer2Index = this._selectProducer(history,producer1Index,this.USER,SURPRISE)
+
+			let creator = this.USER.getCreatorFromIndex(creatorIndex)
+			let producer1 = this.USER.getCreatorFromIndex(producer1Index)
+			let producer2 = this.USER.getCreatorFromIndex(producer2Index)
+
+			params = {
+				creator: creator,
+				producer1: producer1,
+				producer2: producer2,
+				parameters: {
+					creator: RNG.intToBase36(creatorIndex),
+					producer1: RNG.intToBase36(producer1Index),
+					producer2: RNG.intToBase36(producer2Index),
+					parameters: {}
+				}
+			}
+
+			params.parameters.parameters[creator.uid] = this._selectParameters(history,this.USER,creator,SURPRISE),
+			params.parameters.parameters[producer1.uid] = this._selectParameters(history,this.USER,producer1,SURPRISE),
+			params.parameters.parameters[producer2.uid] = this._selectParameters(history,this.USER,producer2,SURPRISE)
+		}
 
 		let content = new PostContent(params,this.AUDIO)
+
 		
 		return content
 	}

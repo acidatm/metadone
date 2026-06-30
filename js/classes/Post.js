@@ -31,6 +31,15 @@ export default class Post{
 	likeFromDoubleTap(){
 		this.events.like.bind(this)()
 	}
+	_createSharecode(){
+		let content = this.content
+		console.log(this.content)
+		let creatorCode = content.PARAMETERS.creator + content.PARAMETERS.parameters[content.creator.uid].join("")
+		let producer1Code = content.PARAMETERS.producer1 + content.PARAMETERS.parameters[content.producer1.uid].join("")
+		let producer2Code = content.PARAMETERS.producer2 + content.PARAMETERS.parameters[content.producer2.uid].join("")
+		let shareCode = creatorCode + "-" + producer1Code + "-" + producer2Code
+		return shareCode
+	}
 	events = {
 		like: function(){
 			this.node.classList.add("liked")
@@ -49,31 +58,29 @@ export default class Post{
 			this.user.remove(this)
 		},
 		share: async function(){
-			const data = {
-				seed: this.content.seed,
-				creators: this.content.creators.map((c) => c.uid),
-				producers: this.content.producers.map((p) => p.uid)
+			const data = this._createSharecode()
+			
+			if(navigator.share){
+				let url = "https://metad.one/?" + data
+				const shareData = {
+				  title: "metad.one",
+				  text: "I found this beautiful piece of content on metad.one",
+				  url: url,
+				}
+				try {
+				    await navigator.share(shareData);
+				    console.log("shared successfull")
+				  } catch (err) {
+				  	console.log("share failed")
+				  	console.log(err)
+				  }
+			}	
+			else{
+				let url = "https:%2F%2Fmetad.one%2F%3F" + data
+				console.log(url)
+				const maillink = `mailto:?subject=Look%20at%20what%20I%20found%20on%20metad.one%21&body=${url}`
+				window.location.href = maillink
 			}
-			let dataString = "?seed=" + data.seed
-			for(let i = 0; i < data.creators.length; i++){
-				dataString = dataString + "&creator" + i + "=" + data.creators[i]
-			}
-			for(let i = 0; i < data.producers.length; i++){
-				dataString = dataString + "&producer" + i + "=" + data.producers[i]
-			}
-			let url = window.location + dataString
-			const shareData = {
-			  title: "metad.one",
-			  text: "I found this beautiful piece of content on metad.one",
-			  url: url,
-			}
-			try {
-			    await navigator.share(shareData);
-			    console.log("shared successfull")
-			  } catch (err) {
-			  	console.log("share failed")
-			  	console.log(err)
-			  }
 		}
 	}
 	preload(){
