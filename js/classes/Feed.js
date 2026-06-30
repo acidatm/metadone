@@ -98,7 +98,6 @@ export default class Feed{
 		}.bind(this)
 	}
 	likeCurrentPost(){
-		console.log(this.activePost)
 		this.activePost.ref.likeFromDoubleTap()
 	}
 	disableOldestPost(){

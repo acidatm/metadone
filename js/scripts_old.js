@@ -7,53 +7,48 @@ import AlmightyAlgorithm from "/js/classes/AlmightyAlgorithm.js"
 const MAIN = document.getElementById("main")
 const USER = new User()
 let APP
-let AUDIO = new AudioContext()
+let AUDIO
 let FEED
-const splash = document.getElementById("splashscreen")
+const preload = document.getElementById("preload")
 let INIT = false
 
 let ul
 
-splash.addEventListener("mousedown",init)
-splash.addEventListener("click",init)
-splash.addEventListener("touchstart",init)
+preload.addEventListener("mousedown",init)
+preload.addEventListener("click",init)
+preload.addEventListener("touchstart",init)
 
 setTimeout(function() {
-	splash.classList.add("login")
+	preload.classList.add("login")
 }, 750);
 		
+
 function init(){
 	if(!INIT){
 		INIT = true
 		let audio = document.getElementById("preloadAudio")
 		audio.play()
 		setTimeout(function(){
-			AUDIO.resume()
-			splash.classList.add("hidden")
+			preload.classList.add("hidden")
 			setTimeout(function(){
-				splash.parentNode.removeChild(splash)
+				preload.parentNode.removeChild(preload)
 			},1000)
+			AUDIO = new AudioContext()
+			const AA = new AlmightyAlgorithm(USER,null,AUDIO)
+
+			ul = document.createElement("ul")
+			ul.id = "feed"
+			MAIN.appendChild(ul)
+
+			FEED = new Feed(ul,AA,AUDIO,USER)
+			// APP = new App(MAIN,FEED)
+
+			resize()
+			// FEED.generate()
 		},200)
 	}
-}
-function preload(){
-	const AA = new AlmightyAlgorithm(USER,null,AUDIO)
-	ul = document.createElement("ul")
-	ul.id = "feed"
-	MAIN.appendChild(ul)
-	FEED = new Feed(ul,AA,AUDIO,USER)
-	resize()
 }	
 function resize(){
 	FEED.height = FEED.node.getBoundingClientRect().height
 }	
-
-// window.addEventListener("DOMContentLoaded",preload)
-preload()
-init()
-
-
-
-
-
-
+// window.addEventListener("DOMContentLoaded",init)

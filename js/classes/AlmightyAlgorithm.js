@@ -19,18 +19,18 @@ export default class AlmightyAlgorithm{
 		}
 		else if(surprise){
 			if(history.length % 2 == 1){
-				return env.global.visualCreatorBufferCutoff + this.USER.randomTextCreatorIndex
-			}
-			else{
-				return this.USER.randomVisualCreatorIndex
-			}
-		}
-		else{
-			if(history.length % 2 == 1){
 				return env.global.visualCreatorBufferCutoff + this.USER.trueRandomTextCreatorIndex
 			}
 			else{
 				return this.USER.trueRandomVisualCreatorIndex
+			}
+		}
+		else{
+			if(history.length % 2 == 1){
+				return env.global.visualCreatorBufferCutoff + this.USER.randomTextCreatorIndex
+			}
+			else{
+				return this.USER.randomVisualCreatorIndex
 			}
 		}
 	}
