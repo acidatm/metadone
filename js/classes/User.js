@@ -30,7 +30,6 @@ export default class User{
 		return Math.floor(r * textCreators.length)
 	}
 	get randomTextCreatorIndex(){
-		return 0
 		let r = Math.random()
 		let rB = this.chances.textPostCreatorChances[Math.floor(r*this.chances.textPostCreatorChances.length)]
 		let _r = RNG.base36ToFloat(rB)
