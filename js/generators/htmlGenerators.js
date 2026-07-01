@@ -160,7 +160,7 @@ export class datePost extends textPost{
 	content(seed){
 		let d = new Date().getTime()
 		let r = new Date(Math.floor(seed * d))
-		return String(r.getDate()).padStart(2,"0") + "." + String(r.getMonth()).padStart(2,"0") + "." + String(r.getFullYear())
+		return String(r.getDate()).padStart(2,"0") + "." + String(r.getMonth()+1).padStart(2,"0") + "." + String(r.getFullYear())
 	}
 }
 export class futurePost extends textPost{
@@ -173,7 +173,7 @@ export class futurePost extends textPost{
 	content(seed){
 		let d = new Date().getTime()
 		let r = new Date(d + Math.floor(seed * 2522880000000))
-		return String(r.getDate()).padStart(2,"0") + "." + String(r.getMonth()).padStart(2,"0") + "." + String(r.getFullYear())
+		return String(r.getDate()).padStart(2,"0") + "." + String(r.getMonth()+1).padStart(2,"0") + "." + String(r.getFullYear())
 	}
 }
 export class numberPost extends textPost{

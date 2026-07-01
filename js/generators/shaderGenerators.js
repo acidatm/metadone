@@ -6,7 +6,7 @@ export class movingGradients{
 		
 	}
 	generate(inputs){
-		let S = "float X = gl_FragCoord.x / resolution.x; float Y = gl_FragCoord.y / resolution.y; float T = time*0.5;"
+		let S = "float X = gl_FragCoord.x / resolution.x; float Y = gl_FragCoord.y / resolution.y; float T = time*0.25;"
 		S += "vec3 c1 = vec3(" + inputs[0] + "," + inputs[1] + "," + inputs[2] + ");"
 		S += "vec3 c2 = vec3(" + inputs[3] + "," + inputs[4] + "," + inputs[5] + ");"
 		S += "vec3 c3 = vec3(" + inputs[6] + "," + inputs[7] + "," + inputs[8] + ");"

@@ -38,30 +38,40 @@ export default class AlmightyAlgorithm{
 	_selectProducer(history,collaborator,user,surprise){ //determine the next creator based on history and user preferences
 		if(surprise){
 			return env.global.audioProducerBufferCutoff + this.USER.trueRandomAudioProducerIndex
-			if(!collaborator){ //no collaborator given
-				return env.global.audioProducerBufferCutoff + this.USER.trueRandomAudioProducerIndex
-			}
-			else{ //when collaborator is given make sure to not feature with self
+			if(collaborator){ //no collaborator given
 				let p = this.USER.trueRandomAudioProducerIndex
 				let c = collaborator - env.global.audioProducerBufferCutoff
-				if(p == c){
-					p = p - 1
-					if(p < 0){
-						p = 1
-					}
+				let i = 0
+				// if(p == c){
+				// 	p = p - 1
+				// 	if(p < 0){
+				// 		p = 1
+				// 	}
+				// }
+				while(p == c && i < 1000){
+					p = this.USER.trueRandomAudioProducerIndex
+					i++
 				}
 				return env.global.audioProducerBufferCutoff + p
+			}
+			else{ //when collaborator is given make sure to not feature with self
+				return env.global.audioProducerBufferCutoff + this.USER.trueRandomAudioProducerIndex
 			}
 		}
 		else{
 			if(collaborator){ //no collaborator given
 				let p = this.USER.randomAudioProducerIndex
 				let c = collaborator - env.global.audioProducerBufferCutoff
-				if(p == c){
-					p = p - 1
-					if(p < 0){
-						p = 1
-					}
+				let i = 0
+				// if(p == c){
+				// 	p = p - 1
+				// 	if(p < 0){
+				// 		p = 1
+				// 	}
+				// }
+				while(p == c && i < 1000){
+					p = this.USER.randomAudioProducerIndex
+					i++
 				}
 				return env.global.audioProducerBufferCutoff + p
 
