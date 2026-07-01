@@ -90,10 +90,6 @@ export default class Feed{
 				if(this.activePost.index + this.buffer.size > this.posts.length){
 					this.generate()
 				}
-				// while(this.posts.length > this.SETTINGS.deletePostsPast){
-				// 	this.disableOldestPost()
-				// 	// console.log("deleted oldest post")
-				// }
 			}
 		}.bind(this)
 	}

@@ -43,27 +43,31 @@ export default class AlmightyAlgorithm{
 			}
 			else{ //when collaborator is given make sure to not feature with self
 				let p = this.USER.trueRandomAudioProducerIndex
-				let i = 0
-				while(p == (collaborator - env.global.audioProducerBufferCutoff) && i < 100){
-					p = this.USER.trueRandomAudioProducerIndex
-					i++
+				let c = collaborator - env.global.audioProducerBufferCutoff
+				if(p == c){
+					p = p - 1
+					if(p < 0){
+						p = 1
+					}
 				}
 				return env.global.audioProducerBufferCutoff + p
 			}
 		}
 		else{
-			return env.global.audioProducerBufferCutoff + this.USER.randomAudioProducerIndex
-			if(!collaborator){ //no collaborator given
-				return env.global.audioProducerBufferCutoff + this.USER.randomAudioProducerIndex
-			}
-			else{ //when collaborator is given make sure to not feature with self
+			if(collaborator){ //no collaborator given
 				let p = this.USER.randomAudioProducerIndex
-				let i = 0
-				while(p == (collaborator - env.global.audioProducerBufferCutoff) && i < 100){
-					p = this.USER.randomAudioProducerIndex
-					i++
+				let c = collaborator - env.global.audioProducerBufferCutoff
+				if(p == c){
+					p = p - 1
+					if(p < 0){
+						p = 1
+					}
 				}
 				return env.global.audioProducerBufferCutoff + p
+
+			}
+			else{ //when collaborator is given make sure to not feature with self
+				return env.global.audioProducerBufferCutoff + this.USER.randomAudioProducerIndex
 			}
 		}
 		

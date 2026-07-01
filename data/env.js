@@ -4,8 +4,8 @@ export default {
 		audioProducerBufferCutoff: 128
 	},
 	User: {
-		initialRandomNumbersAmount: 20,
-		initialRandomParametersAmount: 50,
+		initialRandomNumbersAmount: 30,
+		initialRandomParametersAmount: 100,
 		negativeViewtimeCutoff: 0.8,
 		positiveViewtimeCutoff: 1.2
 	},
@@ -14,7 +14,7 @@ export default {
 		stepsSinceLastSurprise: 0,
 		surpriseAfter: 30,
 		surpriseShift: 2,
-		mutation: 0.01
+		mutation: 0.015
 	},
 	Feed: {
 		buffer: {

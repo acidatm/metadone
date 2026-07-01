@@ -12,6 +12,7 @@ let AUDIO = new AudioContext()
 let FEED
 const splash = document.getElementById("splashscreen")
 let INIT = false
+let AUDIO_INIT = false
 
 let ul
 
@@ -19,22 +20,36 @@ splash.addEventListener("mousedown",init)
 splash.addEventListener("click",init)
 splash.addEventListener("touchstart",init)
 
+
+// setTimeout(function() {
+// 	splash.classList.add("loading")
+// }, 200);
 setTimeout(function() {
 	splash.classList.add("login")
 }, 750);
-		
-function init(){
-	if(!INIT){
-		INIT = true
+
+
+function initAudio(){
+	if(!AUDIO_INIT){
+		AUDIO_INIT = true
 		let audio = document.getElementById("preloadAudio")
 		audio.play()
 		setTimeout(function(){
 			AUDIO.resume()
-			splash.classList.add("hidden")
-			setTimeout(function(){
-				splash.parentNode.removeChild(splash)
-			},1000)
 		},200)
+	}
+}
+	
+function init(skipaudio){
+	if(!INIT){
+		INIT = true
+		if(!skipaudio){
+			initAudio()
+		}
+		splash.classList.add("hidden")
+		setTimeout(function(){
+			splash.parentNode.removeChild(splash)
+		},1000)
 	}
 }
 function preload(){
@@ -82,6 +97,12 @@ function preload(){
 	MAIN.appendChild(ul)
 	FEED = new Feed(ul,AA,AUDIO,USER)
 	resize()
+	if(sharedPost){
+		ul.addEventListener("mousedown",initAudio)
+		ul.addEventListener("click",initAudio)
+		ul.addEventListener("touchstart",initAudio)
+		init(true)
+	}
 }	
 function resize(){
 	FEED.height = FEED.node.getBoundingClientRect().height

@@ -177,6 +177,9 @@ export default class User{
 		this._ratePost(post,-1)
 		// console.log("post punished")
 	}
+	share(post){
+		this._rewardPost(post)
+	}
 	like(post){
 		this.statistics.postsLiked += 1
 		this.liked.push(post.content)

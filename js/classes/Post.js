@@ -58,6 +58,7 @@ export default class Post{
 			this.user.remove(this)
 		},
 		share: async function(){
+			this.user.share(this)
 			const data = this._createSharecode()
 			
 			if(navigator.share){
@@ -77,7 +78,6 @@ export default class Post{
 			}	
 			else{
 				let url = "https:%2F%2Fmetad.one%2F%3F" + data
-				console.log(url)
 				const maillink = `mailto:?subject=Look%20at%20what%20I%20found%20on%20metad.one%21&body=${url}`
 				window.location.href = maillink
 			}
