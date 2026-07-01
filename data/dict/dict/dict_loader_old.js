@@ -12,7 +12,7 @@ let DICTIONARY = {}
 
 export default {
 	get textPostEN(){
-		if(DICTIONARY["EN"]){
+		if(DICTIONARY.loaded){
 			return DICTIONARY.EN
 		}
 		else{
@@ -20,7 +20,7 @@ export default {
 		}
 	},
 	get textPostDE(){
-		if(DICTIONARY["DE"]){
+		if(DICTIONARY.loaded){
 			return DICTIONARY.DE
 		}
 		else{
@@ -28,7 +28,7 @@ export default {
 		}
 	},
 	get textPostRU(){
-		if(DICTIONARY["RU"]){
+		if(DICTIONARY.loaded){
 			return DICTIONARY.RU
 		}
 		else{
@@ -36,7 +36,7 @@ export default {
 		}
 	},
 	get textPostAR(){
-		if(DICTIONARY["AR"]){
+		if(DICTIONARY.loaded){
 			return DICTIONARY.AR
 		}
 		else{
@@ -44,7 +44,7 @@ export default {
 		}
 	},
 	get textPostZH(){
-		if(DICTIONARY["ZH"]){
+		if(DICTIONARY.loaded){
 			return DICTIONARY.ZH
 		}
 		else{
@@ -52,7 +52,7 @@ export default {
 		}
 	},
 	get textPostHI(){
-		if(DICTIONARY["HI"]){
+		if(DICTIONARY.loaded){
 			return DICTIONARY.HI
 		}
 		else{
@@ -60,7 +60,7 @@ export default {
 		}
 	},
 	get textPostES(){
-		if(DICTIONARY["ES"]){
+		if(DICTIONARY.loaded){
 			return DICTIONARY.ES
 		}
 		else{
@@ -68,7 +68,7 @@ export default {
 		}
 	},
 	get textPostFR(){
-		if(DICTIONARY["FR"]){
+		if(DICTIONARY.loaded){
 			return DICTIONARY.FR
 		}
 		else{
@@ -76,7 +76,7 @@ export default {
 		}
 	},
 	get textPostHE(){
-		if(DICTIONARY["HE"]){
+		if(DICTIONARY.loaded){
 			return DICTIONARY.HE
 		}
 		else{
@@ -84,7 +84,7 @@ export default {
 		}
 	},
 	get textPostUK(){
-		if(DICTIONARY["UK"]){
+		if(DICTIONARY.loaded){
 			return DICTIONARY.UK
 		}
 		else{

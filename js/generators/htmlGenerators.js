@@ -1,4 +1,4 @@
-import DICT from "/data/dict/dict_loader.js"
+import DICT from "/data/dict/dict.js"
 
 export class greyPost{
 	constructor(data){

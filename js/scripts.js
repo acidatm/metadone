@@ -76,7 +76,6 @@ function preload(){
 			}
 		}
 	}
-	console.log(sharedPost)
 	const AA = new AlmightyAlgorithm(USER,null,AUDIO,sharedPost)
 	ul = document.createElement("ul")
 	ul.id = "feed"

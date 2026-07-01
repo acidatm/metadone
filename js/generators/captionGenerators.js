@@ -1,4 +1,4 @@
-import DICT from "/data/dict/dict_loader.js"
+import DICT from "/data/dict/dict.js"
 import * as HTML_GENERATORS from "/js/generators/htmlGenerators.js"
 import {RNG} from "/js/tools/tools.js"
 
