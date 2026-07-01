@@ -37,7 +37,6 @@ export default class AlmightyAlgorithm{
 	}
 	_selectProducer(history,collaborator,user,surprise){ //determine the next creator based on history and user preferences
 		if(surprise){
-			return env.global.audioProducerBufferCutoff + this.USER.trueRandomAudioProducerIndex
 			if(collaborator){ //no collaborator given
 				let p = this.USER.trueRandomAudioProducerIndex
 				let c = collaborator - env.global.audioProducerBufferCutoff
