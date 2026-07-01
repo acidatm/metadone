@@ -40,12 +40,10 @@ function initAudio(){
 	}
 }
 	
-function init(skipaudio){
+function init(skip){
 	if(!INIT){
 		INIT = true
-		if(!skipaudio){
-			initAudio()
-		}
+		initAudio()	
 		splash.classList.add("hidden")
 		setTimeout(function(){
 			splash.parentNode.removeChild(splash)
@@ -98,6 +96,7 @@ function preload(){
 	FEED = new Feed(ul,AA,AUDIO,USER)
 	resize()
 	if(sharedPost){
+		console.log("share")
 		ul.addEventListener("mousedown",initAudio)
 		ul.addEventListener("click",initAudio)
 		ul.addEventListener("touchstart",initAudio)
